@@ -1,5 +1,7 @@
 # Clean-Water
 
+[![Build Status](https://travis-ci.org/Agile-Puppers/Clean-Water.svg?branch=master)](https://travis-ci.org/Agile-Puppers/Clean-Water)
+
 Clean Water Crowdsourcing JavaFX application
 
 *Georgia Tech*: **CS 2340** - Fall 2016
