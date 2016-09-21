@@ -35,7 +35,7 @@ public class Main extends Application {
 
     public void loadInitialScene() {
         FXMLLoader loader = new FXMLLoader();
-        URL fxml = Main.class.getResource("../view/welcome-screen.fxml");
+        URL fxml = Main.class.getResource("/fxml/welcome-screen.fxml");
         BorderPane welcomeSceneLayout = null;
 
         //load the FXML layout
