@@ -1,21 +1,28 @@
 package agilepuppers.cleanwater;
 
-import agilepuppers.cleanwater.controller.Controller;
+import java.io.IOException;
+import java.net.URL;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+//App is a Singleton object accessed by App.current
 public class App extends Application {
-
+    
     public static final String NAME = "Clean Water";
+    public static App current;
+    
+    private Stage primaryStage;
 
     public static void main(String[] args) {
         // Launch the application
-        // equivalent to Application.launch() since it is a static method
-        launch();
+        Application.launch();
     }
 
     private void load() {
-        Controller.APP = this;
+        App.current = this;
 
         // anything you want to load/do before starting the application, put under here
 
@@ -24,17 +31,36 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         load();
-
-        // set up SceneSwitcher
-        SceneSwitcher.setPrimaryStage(primaryStage);
-
+        
+        this.setPrimaryStage(primaryStage);
         primaryStage.setTitle(App.NAME);
 
         // load first scene
-        SceneSwitcher.setScene("LoginScreen");
+        this.setScene("LoginScreen");
 
         // show window
         primaryStage.show();
+    }
+    
+    public void setPrimaryStage(Stage stage) {
+        this.primaryStage = stage;
+    }
+
+    public Scene setScene(String viewName, Stage stage) {
+        try {
+            URL url = App.class.getResource("/fxml/scenes/" + viewName.trim() + ".fxml");
+            Parent parent = FXMLLoader.load(url);
+            Scene newScene = new Scene(parent);
+            stage.setScene(newScene);
+            return newScene;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public void setScene(String viewName) {
+        setScene(viewName, this.primaryStage);
     }
 
 }
