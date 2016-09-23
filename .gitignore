@@ -1,7 +1,3 @@
-# intellij files
-.idea
-*.iml
-
 # netbeans files
 nbproject/
 build.xml
