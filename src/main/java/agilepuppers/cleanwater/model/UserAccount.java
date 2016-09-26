@@ -1,20 +1,34 @@
 package agilepuppers.cleanwater.model;
 
-import agilepuppers.cleanwater.App;
-
 public class UserAccount {
 
-    // this is prolly not secure at all but it'll work for now i think
+    private final int ID;
     private final String USERNAME;
     private final String PASSWORD;
 
-    public UserAccount(String username, String password) {
+    private final UserProfile profile;
+
+    public UserAccount(int id, String username, String password, UserProfile profile) {
+        this.ID = id;
         this.USERNAME = username;
         this.PASSWORD = password;
+        this.profile = profile;
     }
 
-    public boolean credentialsAreValid() {
-        return USERNAME.equals("user") && PASSWORD.equals("pass");
+    public int getID() {
+        return ID;
+    }
+
+    public String getUsername() {
+        return USERNAME;
+    }
+
+    public String getPassword() {
+        return PASSWORD;
+    }
+
+    public UserProfile getProfile() {
+        return profile;
     }
 
 }
