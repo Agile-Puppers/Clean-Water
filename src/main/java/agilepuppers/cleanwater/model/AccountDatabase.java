@@ -5,7 +5,6 @@ import agilepuppers.cleanwater.App;
 import java.io.*;
 import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.List;
 
@@ -16,8 +15,8 @@ public class AccountDatabase {
 
     private static File databaseFile;
 
-    // id, username, password
-    private static final int userInfoSize = 4;
+    // username, password, authLevel
+    private static final int userInfoSize = 3;
 
     public static void setFile(String path) {
         databaseFile = new File(path);
@@ -57,7 +56,7 @@ public class AccountDatabase {
                     }
                 }
 
-                if (dictionary.size() > 0){
+                if (dictionary.size() > 0) {
                     data.add(dictionary);
                 }
 
@@ -74,9 +73,9 @@ public class AccountDatabase {
         if (getUserAccount(account.getUsername()) != null) {
             return false;
         }
-        
+
         String entry = account.serialize();
-        
+
         try {
             PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(databaseFile.getPath(), true)));
             out.println(entry);

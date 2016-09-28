@@ -2,9 +2,6 @@ package agilepuppers.cleanwater.model;
 
 import java.util.HashMap;
 
-/**
- * Created by cal on 9/28/16.
- */
 public abstract class HashMapConvertible {
 
     //builds an instance of the object from a HashMap

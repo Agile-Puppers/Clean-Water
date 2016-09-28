@@ -3,10 +3,8 @@ package agilepuppers.cleanwater.controller;
 import agilepuppers.cleanwater.App;
 import agilepuppers.cleanwater.model.AccountDatabase;
 import agilepuppers.cleanwater.model.UserAccount;
-import agilepuppers.cleanwater.controller.RegisterScreen;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 

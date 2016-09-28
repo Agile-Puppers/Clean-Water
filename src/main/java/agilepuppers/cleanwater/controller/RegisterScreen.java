@@ -49,7 +49,7 @@ public class RegisterScreen extends Controller {
 
         if (AccountDatabase.getUserAccount(username) != null) return; // check for taken username
 
-        UserAccount user = new UserAccount(1, username, password, auth, new UserProfile());
+        UserAccount user = new UserAccount(username, password, auth, new UserProfile());
         AccountDatabase.addAccount(user);
 
         //log in the user and move on to the home screen

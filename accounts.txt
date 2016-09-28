@@ -1,10 +1,2 @@
-id=1,username=user,password=pass,authlevel=ADMIN
-id=2,username=user2,password=pass2,authlevel=MANAGER
-id=3,username=charlie,password=pass,authlevel=USER
-id=4,username=jack,password=jill,authlevel=WORKER
-id=1,username=cal,password=carl,authlevel=USER
-id=1,username=gabor,password=gorbo,authlevel=ADMIN
-id=1,username=ridoy,password=majorpdorp,authlevel=MANAGER
-password=trump,authlevel=USER,id=1,username=donald
-password=password,authlevel=ADMIN,id=1,username=createdOnRegisterScreen
-password=test,authlevel=USER,id=1,username=afterMerge
+
+password=pass,authlevel=USER,username=user
