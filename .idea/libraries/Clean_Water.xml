@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="Clean Water">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/dist/Clean Water.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
