@@ -4,6 +4,9 @@ import agilepuppers.cleanwater.App;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.HashMap;
 import java.util.List;
 
 public class AccountDatabase {
@@ -30,17 +33,36 @@ public class AccountDatabase {
         }
     }
 
-    private static String[][] loadData() {
+    private static List<HashMap<String, String>> loadData() {
         createFile();
         try {
+            //read lines from the .txt
             List<String> lines = Files.readAllLines(databaseFile.toPath());
-            String[][] data = new String[lines.size()][userInfoSize];
-            for (int i = 0; i < lines.size(); ++i) {
-                String[] line = lines.get(i).split(",");
-                for (int j = 0; j < userInfoSize && j < line.length; ++j) {
-                    data[i][j] = line[j];
+            List<HashMap<String, String>> data = new ArrayList<>();
+
+            //parse each line individually
+            for (String line : lines) {
+
+                //each line is a comma-separated-list of key/value pairs
+                String[] columns = line.split(",");
+                HashMap<String, String> dictionary = new HashMap<>();
+
+                for (String keyValuePair : columns) {
+                    if (keyValuePair.contains("=")) {
+                        String[] keyValue = keyValuePair.split("=");
+                        String key = keyValue[0];
+                        String value = keyValue[1];
+
+                        dictionary.put(key, value);
+                    }
                 }
+
+                if (dictionary.size() > 0){
+                    data.add(dictionary);
+                }
+
             }
+
             return data;
         } catch (IOException e) {
             App.current.error(App.FATAL, "Could not load user account data");
@@ -52,7 +74,9 @@ public class AccountDatabase {
         if (getUserAccount(account.getUsername()) != null) {
             return false;
         }
-        String entry = account.getID() + "," + account.getUsername() + "," + account.getPassword() + "," + account.getAuthorization().toString();
+        
+        String entry = account.serialize();
+        
         try {
             PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(databaseFile.getPath(), true)));
             out.println(entry);
@@ -64,12 +88,17 @@ public class AccountDatabase {
     }
 
     public static UserAccount getUserAccount(String username) {
-        String[][] data = loadData();
-        for (String[] user : data) {
-            if (user.length >= userInfoSize && user[1].equals(username)) {
-                return new UserAccount(Integer.parseInt(user[0]), user[1], user[2], AuthorizationLevel.valueOf(user[3]), new UserProfile());
+        List<HashMap<String, String>> data = loadData();
+        for (HashMap<String, String> userInfo : data) {
+
+            //deserialize into UserAccount object
+            UserAccount account = new UserAccount(userInfo);
+
+            if (account.getUsername() != null && account.getUsername().equals(username)) {
+                return account;
             }
         }
+
         return null;
     }
 

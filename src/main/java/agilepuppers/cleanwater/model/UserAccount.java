@@ -1,7 +1,16 @@
 package agilepuppers.cleanwater.model;
 
-public class UserAccount {
+import java.util.HashMap;
 
+public class UserAccount extends HashMapConvertible {
+
+    //serialization keys
+    public static final String ID_KEY = "id";
+    public static final String USERNAME_KEY = "username";
+    public static final String PASSWORD_KEY = "password";
+    public static final String AUTHORIZATION_KEY = "authlevel";
+
+    //instance variables
     private final int ID;
     private final String USERNAME;
     private final String PASSWORD;
@@ -37,4 +46,37 @@ public class UserAccount {
         return profile;
     }
 
+
+    //serialization
+
+    public UserAccount(HashMap<String, String> source) {
+        super(source);
+
+        int id = -1;
+
+        try {
+            String idString = source.get(ID_KEY);
+            id = Integer.parseInt(idString);
+        } catch (NumberFormatException e) { }
+
+        this.ID = id;
+        this.USERNAME = source.get(USERNAME_KEY);
+        this.PASSWORD = source.get(PASSWORD_KEY);
+
+        String authString = source.get(AUTHORIZATION_KEY);
+        this.AUTHORIZATION = AuthorizationLevel.valueOf(authString);
+
+        this.profile = null; //no serialization support for Profile yet
+    }
+
+    @Override
+    public HashMap<String, String> convertToHashMap() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put(ID_KEY, "" + ID);
+        map.put(USERNAME_KEY, USERNAME);
+        map.put(PASSWORD_KEY, PASSWORD);
+        map.put(AUTHORIZATION_KEY, AUTHORIZATION.toString());
+
+        return map;
+    }
 }
