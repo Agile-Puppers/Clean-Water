@@ -41,6 +41,7 @@ public class RegisterScreen extends Controller {
         String username = usernameField.getText();
         String password = passwordField.getText();
 
+        // Regex matches any alphanumeric string between 2 and 20 characters long
         Pattern f = Pattern.compile("^[a-zA-Z0-9]{2,20}$");
 
         if (!f.matcher(username).matches()) return; // username regex check
