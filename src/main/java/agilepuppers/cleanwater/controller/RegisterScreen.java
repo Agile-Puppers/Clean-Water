@@ -11,6 +11,8 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
+import java.util.regex.Pattern;
+
 public class RegisterScreen extends Controller {
 
     @FXML private Text title;
@@ -38,6 +40,13 @@ public class RegisterScreen extends Controller {
 
         String username = usernameField.getText();
         String password = passwordField.getText();
+
+        Pattern f = Pattern.compile("[a-zA-Z]{2,20}");
+
+        if (!f.matcher(username).matches()) return; // username regex check
+        if (!f.matcher(password).matches()) return; // password regex check
+
+        if (AccountDatabase.getUserAccount(username) != null) return; // check for taken username
 
         UserAccount user = new UserAccount(1, username, password, auth, new UserProfile());
         AccountDatabase.addAccount(user);

@@ -48,7 +48,10 @@ public class AccountDatabase {
         }
     }
 
-    public static void addAccount(UserAccount account) {
+    public static boolean addAccount(UserAccount account) {
+        if (getUserAccount(account.getUsername()) != null) {
+            return false;
+        }
         String entry = account.getID() + "," + account.getUsername() + "," + account.getPassword() + "," + account.getAuthorization().toString();
         try {
             PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(databaseFile.getPath(), true)));
@@ -57,6 +60,7 @@ public class AccountDatabase {
         } catch (IOException e) {
             App.current.error(App.RECOVERABLE, "Could not access user account database");
         }
+        return true;
     }
 
     public static UserAccount getUserAccount(String username) {
