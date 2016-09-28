@@ -15,9 +15,6 @@ public class AccountDatabase {
 
     private static File databaseFile;
 
-    // username, password, authLevel
-    private static final int userInfoSize = 3;
-
     public static void setFile(String path) {
         databaseFile = new File(path);
     }
