@@ -30,7 +30,7 @@ public class LoginScreen extends Controller {
         String username = usernameField.getText();
         String password = passwordField.getText();
 
-        UserAccount user = validate(username, password);
+        UserAccount user = validate(username.trim(), password);
 
         if (user == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
