@@ -41,7 +41,7 @@ public class RegisterScreen extends Controller {
         String username = usernameField.getText();
         String password = passwordField.getText();
 
-        Pattern f = Pattern.compile("[a-zA-Z]{2,20}");
+        Pattern f = Pattern.compile("[a-zA-Z0-9]{2,20}");
 
         if (!f.matcher(username).matches()) return; // username regex check
         if (!f.matcher(password).matches()) return; // password regex check
