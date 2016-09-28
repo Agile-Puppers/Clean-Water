@@ -14,7 +14,7 @@ public class AccountDatabase {
     private static File databaseFile;
 
     // id, username, password
-    private static final int userInfoSize = 3;
+    private static final int userInfoSize = 4;
 
     public static void setFile(String path) {
         databaseFile = new File(path);
@@ -49,7 +49,7 @@ public class AccountDatabase {
     }
 
     public static void addAccount(UserAccount account) {
-        String entry = account.getID() + "," + account.getUsername() + ", " + account.getPassword();
+        String entry = account.getID() + "," + account.getUsername() + "," + account.getPassword() + "," + account.getAuthorization().toString();
         try {
             PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(databaseFile.getPath(), true)));
             out.println(entry);
@@ -62,8 +62,8 @@ public class AccountDatabase {
     public static UserAccount getUserAccount(String username) {
         String[][] data = loadData();
         for (String[] user : data) {
-            if (user[1].equals(username)) {
-                return new UserAccount(Integer.parseInt(user[0]), user[1], user[2], new UserProfile());
+            if (user.length >= userInfoSize && user[1].equals(username)) {
+                return new UserAccount(Integer.parseInt(user[0]), user[1], user[2], AuthorizationLevel.valueOf(user[3]), new UserProfile());
             }
         }
         return null;

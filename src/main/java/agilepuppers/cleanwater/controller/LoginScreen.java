@@ -3,19 +3,18 @@ package agilepuppers.cleanwater.controller;
 import agilepuppers.cleanwater.App;
 import agilepuppers.cleanwater.model.AccountDatabase;
 import agilepuppers.cleanwater.model.UserAccount;
+import agilepuppers.cleanwater.controller.RegisterScreen;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
 public class LoginScreen extends Controller {
 
-    @FXML
-    private Text title;
-    @FXML
-    private TextField usernameField;
-    @FXML
-    private TextField passwordField;
+    @FXML private Text title;
+    @FXML private TextField usernameField;
+    @FXML private TextField passwordField;
 
     @FXML
     private void initialize() {
@@ -55,8 +54,7 @@ public class LoginScreen extends Controller {
 
     @FXML
     private void handleRegister() {
-        // switch to register screen, carrying over the username and password
-        // text fields in case the user already typed in them
+        App.current.setScene("RegisterScreen");
     }
 
 }

@@ -1,4 +1,6 @@
-1,user,pass
-2,user2,pass2
-3,charlie,pass
-4,jack,jill
+1,user,pass,ADMIN
+2,user2,pass2,MANAGER
+3,charlie,pass,USER
+4,jack,jill.WORKER
+1,cal,carl,USER
+1,gabor,gorbo,ADMIN
