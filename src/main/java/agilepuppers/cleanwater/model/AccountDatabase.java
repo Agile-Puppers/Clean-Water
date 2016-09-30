@@ -15,12 +15,21 @@ public class AccountDatabase {
 
     private static File databaseFile;
 
+
+    /**
+     * Sets the databaseFile
+     * @param path the relative path of the file to use
+     */
     public static void setFile(String path) {
         databaseFile = new File(path);
     }
 
+
+    /**
+     * Creates the databaseFile if it does not exist
+     */
     private static void createFile() {
-        if (!databaseFile.exists()) {
+        if (databaseFile != null && !databaseFile.exists()) {
             try {
                 databaseFile.createNewFile();
             } catch (IOException e) {
@@ -29,6 +38,12 @@ public class AccountDatabase {
         }
     }
 
+    /**
+     * Loads and parses date from the databaseFile.
+     * Each line is expeted to be a comma-separated-list of key/value pairs.
+     *
+     * @return a List of Hash Maps where each entry in the List corresponds to a line in the file.
+     */
     private static List<HashMap<String, String>> loadData() {
         createFile();
         try {
@@ -66,6 +81,12 @@ public class AccountDatabase {
         }
     }
 
+    /**
+     * Persists the given User Account to the databaseFile
+     *
+     * @param account a fully-instantiated User Account to save to disk
+     * @return true if the operation was successful
+     */
     public static boolean addAccount(UserAccount account) {
         if (getUserAccount(account.getUsername()) != null) {
             return false;
@@ -79,10 +100,17 @@ public class AccountDatabase {
             out.close();
         } catch (IOException e) {
             App.current.error(App.RECOVERABLE, "Could not access user account database");
+            return false;
         }
         return true;
     }
 
+    /**
+     * Retrieves a User Account object from the databaseFile
+     *
+     * @param username the username of the account to retrieve
+     * @return the User Account object for the give username. Returns null if there is no matching account.
+     */
     public static UserAccount getUserAccount(String username) {
         List<HashMap<String, String>> data = loadData();
         for (HashMap<String, String> userInfo : data) {

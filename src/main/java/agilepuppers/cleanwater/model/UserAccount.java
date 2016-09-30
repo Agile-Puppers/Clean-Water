@@ -39,6 +39,12 @@ public class UserAccount extends HashMapConvertible {
         return profile;
     }
 
+
+    /**
+     * Builds a UserAccount from the given HashMap
+     *
+     * @param source the HashMap to build a UserAccount from
+     */
     public UserAccount(HashMap<String, String> source) {
         super(source);
 
@@ -51,6 +57,11 @@ public class UserAccount extends HashMapConvertible {
         this.profile = null; //no serialization support for Profile yet
     }
 
+    /**
+     * Builds a HashMap that represents the object
+     *
+     * @return this object represented as a HashMap
+     */
     @Override
     public HashMap<String, String> convertToHashMap() {
         HashMap<String, String> map = new HashMap<>();

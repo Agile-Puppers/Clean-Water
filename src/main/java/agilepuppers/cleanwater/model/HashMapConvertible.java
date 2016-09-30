@@ -4,16 +4,37 @@ import java.util.HashMap;
 
 public abstract class HashMapConvertible {
 
-    //builds an instance of the object from a HashMap
+
+    /**
+     * Builds an instance of the object from a HashMap.
+     * Should be implemented in any class that extends HashMapConvertible.
+     *
+     * @param source a HashMap to build the object from
+     */
     public HashMapConvertible(HashMap<String, String> source) {
         //override this
     }
 
+
+    /**
+     * Empty constructor to allow for instantiation paths that don't use HashMaps
+     */
     public HashMapConvertible() { }
 
+
+    /**
+     * Builds a HashMap representation of the object
+     *
+     * @return the object represented as a Hash Map
+     */
     public abstract HashMap<String, String> convertToHashMap();
 
-    //converts the result of convertToHashMap() to a comma-separated list of key-value pairs
+
+    /**
+     * Converts the result of convertToHashMap() to a comma-separated list of key-value pairs
+     *
+     * @return a string representation of the HashMap representation
+     */
     public String serialize() {
         StringBuilder builder = new StringBuilder();
 
