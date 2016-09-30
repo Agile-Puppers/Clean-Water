@@ -1,4 +1,8 @@
-#intellij files
+
+# ignore this directory
+IGNORE
+
+# intellij files
 .idea
 *.iml
 
