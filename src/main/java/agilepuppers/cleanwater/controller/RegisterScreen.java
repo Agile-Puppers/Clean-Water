@@ -44,10 +44,29 @@ public class RegisterScreen extends Controller {
         // Regex matches any alphanumeric string between 2 and 20 characters long
         Pattern f = Pattern.compile("^[a-zA-Z0-9]{2,20}$");
 
-        if (!f.matcher(username).matches()) return; // username regex check
-        if (!f.matcher(password).matches()) return; // password regex check
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        if (!f.matcher(username).matches()) {
+            alert.setTitle(null);
+            alert.setHeaderText("Invalid Username");
+            alert.setContentText("Username can only contain: letters, numbers, and be 2 - 20 characters long.");
+            alert.showAndWait();
+            return; // username regex check
+        }
+        if (!f.matcher(password).matches()) {
+            alert.setTitle(null);
+            alert.setHeaderText("Invalid Password");
+            alert.setContentText("Password can only contain: letters, numbers, and be 2 - 20 characters long.");
+            alert.showAndWait();
+            return; // password regex check
+        }
 
-        if (AccountDatabase.getUserAccount(username) != null) return; // check for taken username
+        if (AccountDatabase.getUserAccount(username) != null) {
+            alert.setTitle(null);
+            alert.setHeaderText("Invalid Username");
+            alert.setContentText("Username is taken, be more creative.");
+            alert.showAndWait();
+            return; // check for taken username
+        }
 
         UserAccount user = new UserAccount(username, password, auth, new UserProfile());
         AccountDatabase.addAccount(user);
