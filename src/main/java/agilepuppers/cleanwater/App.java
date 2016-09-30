@@ -50,10 +50,25 @@ public class App extends Application {
         this.primaryStage.show();
     }
 
+
+    /**
+     * Sets the current scene in the stage specified to the scene specified.
+     * Instead of setting the scene of the root, however, this method replaces
+     * the "root" of the scene so the size of the window does not jarringly
+     * change.
+     *
+     * @param viewName  The name of the view to be loaded from the fxml file of the same name
+     * @param stage     The stage to set the scene of
+     */
     public void setScene(String viewName, Stage stage) {
         stage.getScene().setRoot(getScene(viewName));
     }
 
+    /**
+     * Sets the current scene in the main window of the application (primaryStage).
+     *
+     * @param viewName  The name of the view to be loaded from the fxml file of the same name
+     */
     public void setScene(String viewName) {
         setScene(viewName, this.primaryStage);
     }
