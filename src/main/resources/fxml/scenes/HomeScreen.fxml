@@ -28,5 +28,10 @@
             <Insets right="15.0" top="15.0" />
          </GridPane.margin>
       </Button>
+       <Button mnemonicParsing="false" onAction="#openEditProfile" text="Edit Profile" GridPane.columnIndex="2">
+           <GridPane.margin>
+               <Insets right="15.0" top="15.0" />
+           </GridPane.margin>
+       </Button>
    </children>
 </GridPane>

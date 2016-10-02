@@ -83,6 +83,7 @@ public class AccountDatabase {
         return true;
     }
 
+
     public static UserAccount getUserAccount(String username) {
         List<HashMap<String, String>> data = loadData();
         for (HashMap<String, String> userInfo : data) {

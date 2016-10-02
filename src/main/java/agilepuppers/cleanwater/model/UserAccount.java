@@ -14,7 +14,7 @@ public class UserAccount extends HashMapConvertible {
     private final String PASSWORD;
     private final AuthorizationLevel AUTHORIZATION;
 
-    private final UserProfile profile;
+    private UserProfile profile;
 
     public UserAccount(String username, String password, AuthorizationLevel authorization, UserProfile profile) {
         this.USERNAME = username;
@@ -48,15 +48,17 @@ public class UserAccount extends HashMapConvertible {
         String authString = source.get(AUTHORIZATION_KEY);
         this.AUTHORIZATION = AuthorizationLevel.valueOf(authString);
 
-        this.profile = null; //no serialization support for Profile yet
+        this.profile = new UserProfile(); //no serialization support for Profile yet
     }
 
     @Override
     public HashMap<String, String> convertToHashMap() {
         HashMap<String, String> map = new HashMap<>();
+        HashMap<String, String> profileMap = profile.convertToHashMap();
         map.put(USERNAME_KEY, USERNAME);
         map.put(PASSWORD_KEY, PASSWORD);
         map.put(AUTHORIZATION_KEY, AUTHORIZATION.toString());
+        map.putAll(profileMap);
 
         return map;
     }

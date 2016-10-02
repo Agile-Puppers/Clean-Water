@@ -18,7 +18,6 @@ public class RegisterScreen extends Controller {
     @FXML private Text title;
     @FXML private TextField usernameField;
     @FXML private TextField passwordField;
-
     @FXML private RadioButton userButton;
     @FXML private RadioButton workerButton;
     @FXML private RadioButton managerButton;
