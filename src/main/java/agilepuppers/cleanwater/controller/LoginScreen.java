@@ -14,6 +14,9 @@ public class LoginScreen extends Controller {
     @FXML private TextField usernameField;
     @FXML private TextField passwordField;
 
+    /**
+     * Initializes login screen
+     */
     @FXML
     private void initialize() {
 
@@ -22,7 +25,9 @@ public class LoginScreen extends Controller {
         title.setText(App.NAME);
 
     }
-
+    /**
+     * Logs a User into the system
+     */
     @FXML
     private void handleLogin() {
         String username = usernameField.getText();
@@ -41,7 +46,10 @@ public class LoginScreen extends Controller {
             App.current.setScene("HomeScreen");
         }
     }
-
+    
+    /**
+     * Validates username and password with account database
+     */
     private UserAccount validate(String username, String password) {
         UserAccount temp = AccountDatabase.getUserAccount(username);
         if (temp != null && password != null && password.equals(temp.getPassword())) {
@@ -49,7 +57,10 @@ public class LoginScreen extends Controller {
         }
         return null;
     }
-
+    
+    /**
+     * Sets the scene to the registration page
+     */
     @FXML
     private void handleRegister() {
         App.current.setScene("RegisterScreen");
