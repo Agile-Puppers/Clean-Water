@@ -1,3 +1,1 @@
-
-password=pass,authlevel=USER,username=user
-password=majumdar,homeaddress=,authlevel=USER,emailaddress=,fullname=,title=,username=ridoy
+password=pass,homeaddress=1234 Clean Water Drive,authlevel=USER,emailaddress=user@cleanwater.com,fullname=User Man,title=Mrs.,username=user

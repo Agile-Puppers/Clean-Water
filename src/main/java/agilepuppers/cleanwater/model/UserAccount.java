@@ -48,7 +48,7 @@ public class UserAccount extends HashMapConvertible {
         String authString = source.get(AUTHORIZATION_KEY);
         this.AUTHORIZATION = AuthorizationLevel.valueOf(authString);
 
-        this.profile = new UserProfile(); //no serialization support for Profile yet
+        this.profile = new UserProfile(source);
     }
 
     @Override

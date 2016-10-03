@@ -1,6 +1,7 @@
 package agilepuppers.cleanwater.controller;
 
 import agilepuppers.cleanwater.App;
+import agilepuppers.cleanwater.model.AccountDatabase;
 import agilepuppers.cleanwater.model.UserAccount;
 import agilepuppers.cleanwater.model.UserProfile;
 import javafx.fxml.FXML;
@@ -14,8 +15,17 @@ public class EditProfileScreen {
     @FXML private TextField emailField;
     @FXML private TextField addressField;
 
+    @FXML
     private void initialize() {
-        String username = App.current.getUser().getUsername();
+        UserAccount user = App.current.getUser();
+        if (user != null && user.getProfile() != null) {
+            UserProfile profile = user.getProfile();
+
+            titleField.setText(profile.getTitle());
+            nameField.setText(profile.getName());
+            emailField.setText(profile.getEmail());
+            addressField.setText(profile.getAddress());
+        }
     }
 
     @FXML
@@ -31,15 +41,21 @@ public class EditProfileScreen {
 
     @FXML
     private void updateProfile() {
-        String title = (titleField.getText() == null) ? titleField.getText() : "";
-        String name = (nameField.getText() == null) ? nameField.getText() : "";
-        String email = (emailField.getText() == null) ? emailField.getText() : "";
-        String address = (addressField.getText() == null) ? addressField.getText() : "";
+        String title = (titleField.getText() != null) ? titleField.getText() : "";
+        String name = (nameField.getText() != null) ? nameField.getText() : "";
+        String email = (emailField.getText() != null) ? emailField.getText() : "";
+        String address = (addressField.getText() != null) ? addressField.getText() : "";
 
-        App.current.getUser().getProfile().setTitle(title);
-        App.current.getUser().getProfile().setName(name);
-        App.current.getUser().getProfile().setEmail(email);
-        App.current.getUser().getProfile().setAddress(address);
+        UserProfile profile = App.current.getUser().getProfile();
+        profile.setTitle(title);
+        profile.setName(name);
+        profile.setEmail(email);
+        profile.setAddress(address);
+
+        //remove and resave the account
+        AccountDatabase.removeAccount(App.current.getUser().getUsername());
+        AccountDatabase.addAccount(App.current.getUser());
+
         App.current.setScene("HomeScreen");
     }
 

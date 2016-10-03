@@ -30,9 +30,17 @@ public class UserProfile {
     }
 
     public void setTitle(String title) { this.TITLE = title; }
-    public void setName(String name) { this.NAME = name;}
+    public void setName(String name) { this.NAME = name; }
     public void setEmail(String email) { this.EMAIL = email; }
     public void setAddress(String address) { this.ADDRESS = address; }
+
+    public String getTitle() { return TITLE; }
+    public String getName() { return NAME; }
+    public String getEmail() { return EMAIL; }
+    public String getAddress() { return ADDRESS; }
+
+
+    //serialization methods
 
     public HashMap<String, String> convertToHashMap() {
         HashMap<String, String> map = new HashMap<>();
@@ -42,6 +50,13 @@ public class UserProfile {
         map.put(ADDRESS_KEY, ADDRESS);
 
         return map;
+    }
+
+    public UserProfile(HashMap<String, String> hashMap) {
+        this.TITLE = hashMap.get(TITLE_KEY);
+        this.NAME = hashMap.get(NAME_KEY);
+        this.EMAIL = hashMap.get(EMAIL_KEY);
+        this.ADDRESS = hashMap.get(ADDRESS_KEY);
     }
 
 }

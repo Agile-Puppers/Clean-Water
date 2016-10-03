@@ -46,6 +46,8 @@ public class AccountDatabase {
                 for (String keyValuePair : columns) {
                     if (keyValuePair.contains("=")) {
                         String[] keyValue = keyValuePair.split("=");
+                        if (keyValue.length < 2) continue;
+
                         String key = keyValue[0];
                         String value = keyValue[1];
 
@@ -83,6 +85,42 @@ public class AccountDatabase {
         return true;
     }
 
+    /**
+     * Remove a given account from the Account Database
+     *
+     * @param username the account to remove
+     * @return true if the account was successfully removed. false if there was an error or no matching account.
+     */
+    public static boolean removeAccount(String username) {
+
+        if (!databaseFile.exists()) {
+            return false;
+        }
+
+        try {
+            //recreate the file without the line for the given account
+            List<String> lines = Files.readAllLines(databaseFile.toPath());
+            databaseFile.delete();
+            AccountDatabase.createFile();
+
+            PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(databaseFile.getPath(), true)));
+            String accountToRemove = UserAccount.USERNAME_KEY + "=" + username;
+            boolean didRemoveAccount = false;
+
+            for (String line : lines) {
+                if (line.contains(accountToRemove)) {
+                    didRemoveAccount = true;
+                    continue;
+                }
+                out.println(line);
+            }
+
+            return didRemoveAccount;
+
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
     public static UserAccount getUserAccount(String username) {
         List<HashMap<String, String>> data = loadData();
