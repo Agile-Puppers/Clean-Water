@@ -20,4 +20,9 @@ public class HomeScreen {
         App.current.setScene("LoginScreen");
     }
 
+    @FXML
+    private void openEditProfile() {
+        App.current.setScene("EditProfileScreen");
+    }
+
 }

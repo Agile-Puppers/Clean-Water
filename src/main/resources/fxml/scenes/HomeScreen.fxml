@@ -7,10 +7,11 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.76-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="agilepuppers.cleanwater.controller.HomeScreen">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="agilepuppers.cleanwater.controller.HomeScreen">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints />
   </columnConstraints>
   <rowConstraints>
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -20,13 +21,21 @@
    <children>
       <Label fx:id="usernameLabel" text="USERNAME" textAlignment="RIGHT" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
          <GridPane.margin>
-            <Insets right="95.0" top="20.0" />
+            <Insets right="20.0" top="20.0" />
          </GridPane.margin>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
       </Label>
-      <Button mnemonicParsing="false" onAction="#handleLogout" text="Log Out" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
+      <Button alignment="CENTER" contentDisplay="CENTER" minWidth="100.0" mnemonicParsing="false" onAction="#handleLogout" text="Log Out" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
          <GridPane.margin>
-            <Insets right="15.0" top="15.0" />
+            <Insets right="15.0" top="85.0" />
          </GridPane.margin>
       </Button>
+       <Button alignment="CENTER" contentDisplay="CENTER" minWidth="100.0" mnemonicParsing="false" onAction="#openEditProfile" text="Edit Profile" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
+           <GridPane.margin>
+               <Insets right="15.0" top="50.0" />
+           </GridPane.margin>
+       </Button>
    </children>
 </GridPane>
