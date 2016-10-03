@@ -137,6 +137,8 @@ public class AccountDatabase {
                 out.println(line);
             }
 
+            out.close();
+
             return didRemoveAccount;
 
         } catch (Exception e) {
@@ -144,7 +146,7 @@ public class AccountDatabase {
         }
     }
 
-     * Retrieves a User Account object from the databaseFile
+     /* Retrieves a User Account object from the databaseFile
      *
      * @param username the username of the account to retrieve
      * @return the User Account object for the give username. Returns null if there is no matching account.
