@@ -22,12 +22,17 @@ public class RegisterScreen extends Controller {
     @FXML private RadioButton workerButton;
     @FXML private RadioButton managerButton;
     @FXML private RadioButton adminButton;
-
+    
+    /**
+     * Returns User to login screen upon cancelling the registration process
+     */
     @FXML
     private void handleCancel() {
         App.current.setScene("LoginScreen");
     }
-
+    /**
+     * Registers new User into the system
+     */
     @FXML
     private void handleRegister() {
         //create new user
