@@ -8,7 +8,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
-public class LoginScreen extends Controller {
+public class LoginScreen extends Controller implements FormScreen {
 
     @FXML private Text title;
     @FXML private TextField usernameField;
@@ -66,4 +66,8 @@ public class LoginScreen extends Controller {
         App.current.setScene("RegisterScreen");
     }
 
+    @Override
+    public void displayMessage(String message) {
+
+    }
 }

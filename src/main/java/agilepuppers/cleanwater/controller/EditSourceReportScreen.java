@@ -9,7 +9,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 
-public class EditSourceReportScreen extends Controller {
+public class EditSourceReportScreen extends Controller implements FormScreen {
 
     @FXML private TextField locationField;
 
@@ -68,4 +68,8 @@ public class EditSourceReportScreen extends Controller {
         alert.showAndWait();
     }
 
+    @Override
+    public void displayMessage(String message) {
+
+    }
 }

@@ -7,7 +7,7 @@ import agilepuppers.cleanwater.model.user.UserProfile;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
-public class EditProfileScreen {
+public class EditProfileScreen extends Controller implements FormScreen {
 
     @FXML private TextField titleField;
     @FXML private TextField nameField;
@@ -70,4 +70,8 @@ public class EditProfileScreen {
         App.current.setScene("HomeScreen");
     }
 
+    @Override
+    public void displayMessage(String message) {
+
+    }
 }

@@ -13,7 +13,7 @@ import javafx.scene.text.Text;
 
 import java.util.regex.Pattern;
 
-public class RegisterScreen extends Controller {
+public class RegisterScreen extends Controller implements FormScreen {
 
     @FXML private Text title;
     @FXML private TextField usernameField;
@@ -80,4 +80,8 @@ public class RegisterScreen extends Controller {
         App.current.setScene("HomeScreen");
     }
 
+    @Override
+    public void displayMessage(String message) {
+
+    }
 }
