@@ -1,11 +1,10 @@
 package agilepuppers.cleanwater.controller;
 
 import agilepuppers.cleanwater.App;
-import agilepuppers.cleanwater.model.AccountDatabase;
-import agilepuppers.cleanwater.model.UserAccount;
-import agilepuppers.cleanwater.model.UserProfile;
+import agilepuppers.cleanwater.model.user.AccountDatabase;
+import agilepuppers.cleanwater.model.user.UserAccount;
+import agilepuppers.cleanwater.model.user.UserProfile;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 public class EditProfileScreen {

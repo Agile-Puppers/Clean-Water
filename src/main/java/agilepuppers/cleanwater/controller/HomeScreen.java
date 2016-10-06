@@ -18,19 +18,28 @@ public class HomeScreen {
     }
 
     /**
-     * Sets scene to Login screen and logs the user out
+     * Navigates to the Login screen and logs the user out
      */
     @FXML
     private void handleLogout() {
         App.current.setUser(null);
         App.current.setScene("LoginScreen");
     }
+
     /**
-     * Sets scene to the Edit Profile screen
+     * Navigates to the Edit Profile screen
      */
     @FXML
     private void openEditProfile() {
         App.current.setScene("EditProfileScreen");
+    }
+
+    /**
+     * Navigates to the screen to create a Water Source Report
+     */
+    @FXML
+    private void createSourceReport() {
+        App.current.setScene("SourceReportScreen");
     }
 
 }

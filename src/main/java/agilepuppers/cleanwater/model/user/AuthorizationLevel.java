@@ -1,4 +1,4 @@
-package agilepuppers.cleanwater.model;
+package agilepuppers.cleanwater.model.user;
 
 /**
  * Created by cal on 9/27/16.

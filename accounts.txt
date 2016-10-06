@@ -1,2 +1,2 @@
-password=pass,homeaddress=1234 Clean Water Lane,authlevel=USER,emailaddress=user@cleanwater.com,fullname=User Dude,title=Mr.,username=user
 password=pass,homeaddress=154 5th Street NW,authlevel=USER,emailaddress=cal@gatech.edu,fullname=Cal Stephens,title=Mr.,username=cal
+password=pass,homeaddress=1234 Clean Water Lane,authlevel=USER,emailaddress=user@cleanwater.com,fullname=User Dude,title=Mr.,username=user
