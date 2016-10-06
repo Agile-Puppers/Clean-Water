@@ -1,13 +1,23 @@
 package agilepuppers.cleanwater.controller;
 
 import agilepuppers.cleanwater.App;
+import com.lynden.gmapsfx.GoogleMapView;
+import com.lynden.gmapsfx.MapComponentInitializedListener;
+import com.lynden.gmapsfx.javascript.object.GoogleMap;
+import com.lynden.gmapsfx.javascript.object.LatLong;
+import com.lynden.gmapsfx.javascript.object.MapOptions;
+import com.lynden.gmapsfx.javascript.object.MapTypeIdEnum;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-public class HomeScreen {
+public class HomeScreen implements MapComponentInitializedListener {
 
     @FXML private Label usernameLabel;
-    
+
+    @FXML private GoogleMapView mapView;
+
+    private GoogleMap map;
+
     /**
      * Initializes Home screen
      */
@@ -15,6 +25,26 @@ public class HomeScreen {
     private void initialize() {
         String username = App.current.getUser().getUsername();
         this.usernameLabel.setText(username);
+
+        mapView.addMapInializedListener(this);
+    }
+
+    @Override
+    public void mapInitialized() {
+
+        MapOptions mapOptions = new MapOptions();
+
+        mapOptions.center(new LatLong(0, 0))
+                .mapType(MapTypeIdEnum.ROADMAP)
+                .overviewMapControl(false)
+                .panControl(false)
+                .rotateControl(false)
+                .scaleControl(false)
+                .streetViewControl(false)
+                .zoomControl(false)
+                .zoom(2);
+
+        map = mapView.createMap(mapOptions);
     }
 
     /**
