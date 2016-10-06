@@ -69,7 +69,7 @@ public class HomeScreen implements MapComponentInitializedListener {
      */
     @FXML
     private void createSourceReport() {
-        App.current.setScene("SourceReportScreen");
+        App.current.setScene("EditSourceReportScreen");
     }
 
 }
