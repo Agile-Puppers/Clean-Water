@@ -2,6 +2,11 @@
 # ignore this directory
 IGNORE
 
+# gradle
+gradle
+.gradle
+build
+
 # intellij files
 .idea
 *.iml

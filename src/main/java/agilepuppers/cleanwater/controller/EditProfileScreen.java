@@ -7,13 +7,13 @@ import agilepuppers.cleanwater.model.user.UserProfile;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
-public class EditProfileScreen {
+public class EditProfileScreen extends Controller implements FormScreen {
 
     @FXML private TextField titleField;
     @FXML private TextField nameField;
     @FXML private TextField emailField;
     @FXML private TextField addressField;
-    
+
     /**
      * Initializes the Edit Profile screen
      */
@@ -31,13 +31,14 @@ public class EditProfileScreen {
     }
 
     /**
-     *  Sets the scene to the Logout screen and logs the User out
+     * Sets the scene to the Logout screen and logs the User out
      */
     @FXML
     private void handleLogout() {
         App.current.setUser(null);
         App.current.setScene("LoginScreen");
     }
+
     /**
      * Closes the Edit Profile page and goes to the Home Screen
      */
@@ -45,7 +46,7 @@ public class EditProfileScreen {
     private void closeEditProfile() {
         App.current.setScene("HomeScreen");
     }
-    
+
     /**
      * Updates the User's profile based on text fields
      */
@@ -69,4 +70,8 @@ public class EditProfileScreen {
         App.current.setScene("HomeScreen");
     }
 
+    @Override
+    public void displayMessage(String message) {
+
+    }
 }
