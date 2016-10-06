@@ -6,9 +6,6 @@ import agilepuppers.cleanwater.model.user.UserAccount;
 import java.util.Date;
 import java.util.HashMap;
 
-/**
- * Created by cal on 10/6/16.
- */
 public class WaterSourceReport extends HashMapConvertible {
 
     private Date timeCreated;
