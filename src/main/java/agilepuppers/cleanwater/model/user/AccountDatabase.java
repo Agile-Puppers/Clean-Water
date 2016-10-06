@@ -33,7 +33,7 @@ public class AccountDatabase {
             try {
                 databaseFile.createNewFile();
             } catch (IOException e) {
-                App.current.error(App.FATAL, "Could not create user account database");
+                App.err.fatalError("Could not create user account database");
             }
         }
     }
@@ -78,7 +78,7 @@ public class AccountDatabase {
 
             return data;
         } catch (IOException e) {
-            App.current.error(App.FATAL, "Could not load user account data");
+            App.err.fatalError("Could not load user account data");
             return null;
         }
     }
@@ -101,7 +101,7 @@ public class AccountDatabase {
             out.println(entry);
             out.close();
         } catch (IOException e) {
-            App.current.error(App.RECOVERABLE, "Could not access user account database");
+            App.err.error("Could not access user account database");
             return false;
         }
         return true;

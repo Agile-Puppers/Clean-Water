@@ -1,5 +1,6 @@
 package agilepuppers.cleanwater;
 
+import agilepuppers.cleanwater.model.Logger;
 import agilepuppers.cleanwater.model.user.AccountDatabase;
 import agilepuppers.cleanwater.model.user.UserAccount;
 import javafx.application.Application;
@@ -15,7 +16,11 @@ import java.net.URL;
 public class App extends Application {
 
     public static final String NAME = "Clean Water";
+
+    // singletons
     public static App current;
+    public static Logger logger = new Logger();
+    public static ErrorHandler err = new ErrorHandler();
 
     private Stage primaryStage;
     private UserAccount user;
@@ -78,7 +83,7 @@ public class App extends Application {
         try {
             return FXMLLoader.load(url);
         } catch (IOException e) {
-            App.current.error(App.FATAL, "Could not access scene");
+            App.err.fatalError("Could not access scene");
         }
         return null;
     }
@@ -89,31 +94,6 @@ public class App extends Application {
 
     public void setUser(UserAccount user) {
         this.user = user;
-    }
-
-    public static final int RECOVERABLE = 0;
-    public static final int FATAL = 1;
-
-    public void error(int errorType, String msg) {
-        if (errorType == RECOVERABLE) {
-            System.out.println("Error message: " + msg);
-            App.current.user = null;
-            App.current.setScene("LoginScreen");
-        } else {
-            System.exit(0);
-        }
-    }
-
-    public void error(String msg) {
-        error(RECOVERABLE, msg);
-    }
-
-    public void error(int errorType) {
-        error(errorType, "");
-    }
-
-    public void error() {
-        error(FATAL);
     }
 
 }
