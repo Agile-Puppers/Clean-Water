@@ -1,4 +1,4 @@
-package agilepuppers.cleanwater.model;
+package agilepuppers.cleanwater.model.user;
 
 import agilepuppers.cleanwater.App;
 

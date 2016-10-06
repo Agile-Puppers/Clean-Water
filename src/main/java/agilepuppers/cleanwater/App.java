@@ -1,7 +1,7 @@
 package agilepuppers.cleanwater;
 
-import agilepuppers.cleanwater.model.AccountDatabase;
-import agilepuppers.cleanwater.model.UserAccount;
+import agilepuppers.cleanwater.model.user.AccountDatabase;
+import agilepuppers.cleanwater.model.user.UserAccount;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

@@ -1,13 +1,13 @@
-package agilepuppers.cleanwater.model;
+package agilepuppers.cleanwater.model.user;
 
 import java.util.HashMap;
 
 public class UserProfile {
 
-    private final String TITLE_KEY = "title";
-    private final String NAME_KEY = "fullname";
-    private final String EMAIL_KEY = "emailaddress";
-    private final String ADDRESS_KEY = "homeaddress";
+    private static final String TITLE_KEY = "title";
+    private static final String NAME_KEY = "fullname";
+    private static final String EMAIL_KEY = "emailaddress";
+    private static final String ADDRESS_KEY = "homeaddress";
 
     //instance variables
     private String TITLE;

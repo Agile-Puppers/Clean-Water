@@ -1,4 +1,6 @@
-package agilepuppers.cleanwater.model;
+package agilepuppers.cleanwater.model.user;
+
+import agilepuppers.cleanwater.model.HashMapConvertible;
 
 import java.util.HashMap;
 
