@@ -1,7 +1,5 @@
 package agilepuppers.cleanwater.model;
 
-import com.sun.deploy.util.StringUtils;
-
 import java.io.*;
 import java.nio.file.Files;
 import java.util.*;
@@ -106,7 +104,13 @@ public class TextDatabase<T extends HashMapConvertible> {
         for (HashMap<String, String> entry : data) {
             List<String> columnList = new ArrayList<>();
             entry.forEach((key, value) -> columnList.add(key + assoc + value));
-            out.println(StringUtils.join(columnList, delimiter));
+            if (columnList.size() > 0) {
+                String line = columnList.get(0);
+                for (int i = 1; i < columnList.size(); ++i) {
+                    line += delimiter + columnList.get(i);
+                }
+                out.println(line);
+            }
         }
         out.close();
     }

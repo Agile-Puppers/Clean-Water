@@ -1,5 +1,6 @@
 package agilepuppers.cleanwater;
 
+import agilepuppers.cleanwater.model.ErrorHandler;
 import agilepuppers.cleanwater.model.Logger;
 import agilepuppers.cleanwater.model.TextDatabase;
 import agilepuppers.cleanwater.model.user.UserAccount;

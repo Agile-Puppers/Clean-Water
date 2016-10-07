@@ -1,4 +1,4 @@
-package agilepuppers.cleanwater;
+package agilepuppers.cleanwater.model;
 
 public class ErrorHandler {
 
