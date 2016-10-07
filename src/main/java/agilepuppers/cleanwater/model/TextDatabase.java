@@ -14,6 +14,12 @@ public class TextDatabase<T extends HashMapConvertible> {
 
     private final Queue<Action> actionQueue;
 
+    /**
+     * @param filePath  the path to database file
+     * @param UID       the property or column that is used to compare entries. intended to stand to "unique ID".
+     * @param delimiter the character (or string) that is used to split up the columns of each entry
+     * @param assoc     the character (or string) used to split up each key/value pair
+     */
     public TextDatabase(String filePath, String UID, String delimiter, String assoc) {
         this.filePath = filePath;
         this.UID = UID;
@@ -22,6 +28,10 @@ public class TextDatabase<T extends HashMapConvertible> {
         actionQueue = new LinkedList<>();
     }
 
+    /**
+     * @param properties    the array of key/value pairs
+     * @return hashmap of the key/value pairs from the string array
+     */
     private HashMap<String, String> hashMapFromPropertyList(String[] properties) {
         HashMap<String, String> entry = new HashMap<>();
         for (String property : properties) {
@@ -34,21 +44,43 @@ public class TextDatabase<T extends HashMapConvertible> {
         return entry;
     }
 
+    /**
+     * Queues an ADD action, does not do it immediately
+     *
+     * @param item  item to add to the database
+     */
     public void queueAddRow(T item) {
         if (item == null) return;
         actionQueue.add(new Action(ActionType.ADDROW, item));
     }
 
+    /**
+     * Queues an UPDATE action, does not do it immediately
+     *
+     * @param item  item to update in the database
+     */
     public void queueUpdateRow(T item) {
         if (item == null) return;
         actionQueue.add(new Action(ActionType.UPDATEROW, item));
     }
 
+    /**
+     * Queues a REMOVE action, does not do it immediately
+     *
+     * @param item  item to remove from the database
+     */
     public void queueRemoveRow(T item) {
         if (item == null) return;
         actionQueue.add(new Action(ActionType.REMOVEROW, item));
     }
 
+    /**
+     * Returns the entry with the specified id as a hashmap
+     *
+     * @param id    the unique identifier of the item to be queried
+     * @return hashmap representing the entry queried
+     * @throws IOException
+     */
     public HashMap<String, String> queryRow(String id) throws IOException {
         if (id == null) return null;
         File file = new File(filePath);
@@ -67,6 +99,11 @@ public class TextDatabase<T extends HashMapConvertible> {
         return null;
     }
 
+    /**
+     * Attempts to do all queued actions
+     *
+     * @throws IOException
+     */
     public void flushQueue() throws IOException {
         File file = new File(filePath);
         file.getParentFile().mkdirs(); // create all parent directories
@@ -82,7 +119,8 @@ public class TextDatabase<T extends HashMapConvertible> {
             data.add(entry);
         }
 
-        actionQueue.stream().forEach(action -> {
+        while (actionQueue.peek() != null) {
+            Action action = actionQueue.poll();
             HashMap<String, String> entry = action.item.toHashMap();
             if (entry.get(UID) != null) {
                 if (action.type == ActionType.ADDROW || action.type == ActionType.UPDATEROW) {
@@ -98,7 +136,7 @@ public class TextDatabase<T extends HashMapConvertible> {
                     data.removeIf(row -> entry.get(UID).equals(row.get(UID)));
                 }
             }
-        });
+        }
 
         PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(filePath, false)));
         for (HashMap<String, String> entry : data) {
