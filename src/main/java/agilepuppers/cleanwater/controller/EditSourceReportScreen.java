@@ -9,10 +9,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 
-/**
- * Created by cal on 10/6/16.
- */
-public class SourceReportScreen extends Controller {
+public class EditSourceReportScreen extends Controller implements FormScreen {
 
     @FXML private TextField locationField;
 
@@ -67,8 +64,12 @@ public class SourceReportScreen extends Controller {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(null);
         alert.setHeaderText("Created Water Source Report");
-        alert.setContentText(report.serialize());
+        //alert.setContentText(report.serialize());
         alert.showAndWait();
     }
 
+    @Override
+    public void displayMessage(String message) {
+
+    }
 }

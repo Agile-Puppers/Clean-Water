@@ -12,7 +12,7 @@
 
 <GridPane id="gridpane" alignment="CENTER" hgap="10.0" minHeight="250.0" minWidth="250.0" prefHeight="550.0" prefWidth="900.0" stylesheets="@../../css/LoginScreen.css" vgap="10.0" xmlns="http://javafx.com/javafx/8.0.76-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="agilepuppers.cleanwater.controller.LoginScreen">
     <children>
-        <Text fx:id="title" textAlignment="RIGHT" GridPane.halignment="CENTER" GridPane.rowIndex="0">
+        <Text fx:id="title" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="0">
             <!--Value gets loaded automatically in controller-->
             <font>
                 <Font size="32" />
@@ -21,9 +21,9 @@
                 <Insets bottom="20.0" />
             </GridPane.margin>
         </Text>
-        <TextField fx:id="usernameField" prefWidth="200.0" promptText="Username" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-        <PasswordField fx:id="passwordField" prefWidth="200.0" promptText="Password" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-        <GridPane alignment="CENTER" hgap="10" prefWidth="200.0" vgap="10.0" GridPane.rowIndex="3">
+        <TextField fx:id="usernameField" prefWidth="200.0" maxWidth="200.0" promptText="Username" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+        <PasswordField fx:id="passwordField" prefWidth="200.0" maxWidth="200.0" promptText="Password" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+        <GridPane alignment="CENTER" hgap="10" prefWidth="200.0" maxWidth="200.0" vgap="10.0" GridPane.rowIndex="3">
             <children>
                 <Button onAction="#handleLogin" prefHeight="25.0" prefWidth="95.0" GridPane.columnIndex="0" GridPane.halignment="LEFT">
                     Log In
@@ -40,6 +40,12 @@
                 <RowConstraints />
             </rowConstraints>
         </GridPane>
+        <Text fx:id="formFeedback" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="4">
+            <!--Value gets loaded automatically in controller-->
+            <font>
+                <Font size="15" />
+            </font>
+        </Text>
     </children>
     <columnConstraints>
         <ColumnConstraints />

@@ -1,19 +1,20 @@
 package agilepuppers.cleanwater.controller;
 
 import agilepuppers.cleanwater.App;
-import agilepuppers.cleanwater.model.user.AccountDatabase;
 import agilepuppers.cleanwater.model.user.UserAccount;
 import agilepuppers.cleanwater.model.user.UserProfile;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
-public class EditProfileScreen {
+import java.io.IOException;
+
+public class EditProfileScreen extends Controller implements FormScreen {
 
     @FXML private TextField titleField;
     @FXML private TextField nameField;
     @FXML private TextField emailField;
     @FXML private TextField addressField;
-    
+
     /**
      * Initializes the Edit Profile screen
      */
@@ -31,13 +32,14 @@ public class EditProfileScreen {
     }
 
     /**
-     *  Sets the scene to the Logout screen and logs the User out
+     * Sets the scene to the Logout screen and logs the User out
      */
     @FXML
     private void handleLogout() {
         App.current.setUser(null);
         App.current.setScene("LoginScreen");
     }
+
     /**
      * Closes the Edit Profile page and goes to the Home Screen
      */
@@ -45,7 +47,7 @@ public class EditProfileScreen {
     private void closeEditProfile() {
         App.current.setScene("HomeScreen");
     }
-    
+
     /**
      * Updates the User's profile based on text fields
      */
@@ -62,11 +64,18 @@ public class EditProfileScreen {
         profile.setEmail(email);
         profile.setAddress(address);
 
-        //remove and resave the account
-        AccountDatabase.removeAccount(App.current.getUser().getUsername());
-        AccountDatabase.addAccount(App.current.getUser());
+        App.accountDatabase.queueUpdateEntry(App.current.getUser());
+        try {
+            App.accountDatabase.flushQueue();
+        } catch (IOException e) {
+            App.err.error("Could not update profile");
+        }
 
         App.current.setScene("HomeScreen");
     }
 
+    @Override
+    public void displayMessage(String message) {
+        // no implementation needed
+    }
 }

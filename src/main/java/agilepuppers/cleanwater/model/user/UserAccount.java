@@ -4,12 +4,16 @@ import agilepuppers.cleanwater.model.HashMapConvertible;
 
 import java.util.HashMap;
 
-public class UserAccount extends HashMapConvertible {
+public class UserAccount implements HashMapConvertible {
 
     //serialization keys
     public static final String USERNAME_KEY = "username";
     public static final String PASSWORD_KEY = "password";
     public static final String AUTHORIZATION_KEY = "authlevel";
+    public static final String TITLE_KEY = "title";
+    public static final String NAME_KEY = "fullname";
+    public static final String EMAIL_KEY = "emailaddress";
+    public static final String ADDRESS_KEY = "homeaddress";
 
     //instance variables
     private final String USERNAME;
@@ -68,33 +72,29 @@ public class UserAccount extends HashMapConvertible {
     /**
      * Builds a UserAccount from the given HashMap
      *
-     * @param source the HashMap to build a UserAccount from
+     * @param hashmap the HashMap to build a UserAccount from
      */
-    public UserAccount(HashMap<String, String> source) {
-        super(source);
+    public UserAccount(HashMap<String, String> hashmap) {
+        this.USERNAME = hashmap.get(USERNAME_KEY);
+        this.PASSWORD = hashmap.get(PASSWORD_KEY);
 
-        this.USERNAME = source.get(USERNAME_KEY);
-        this.PASSWORD = source.get(PASSWORD_KEY);
-
-        String authString = source.get(AUTHORIZATION_KEY);
+        String authString = hashmap.get(AUTHORIZATION_KEY);
         this.AUTHORIZATION = AuthorizationLevel.valueOf(authString);
 
-        this.profile = new UserProfile(source);
+        this.profile = new UserProfile(hashmap);
     }
 
-    /**
-     * Builds a HashMap that represents the object
-     *
-     * @return this object represented as a HashMap
-     */
     @Override
-    public HashMap<String, String> convertToHashMap() {
+    public HashMap<String, String> toHashMap() {
         HashMap<String, String> map = new HashMap<>();
-        HashMap<String, String> profileMap = profile.convertToHashMap();
+
         map.put(USERNAME_KEY, USERNAME);
         map.put(PASSWORD_KEY, PASSWORD);
         map.put(AUTHORIZATION_KEY, AUTHORIZATION.toString());
-        map.putAll(profileMap);
+        map.put(TITLE_KEY, profile.getTitle());
+        map.put(NAME_KEY, profile.getName());
+        map.put(EMAIL_KEY, profile.getEmail());
+        map.put(ADDRESS_KEY, profile.getAddress());
 
         return map;
     }

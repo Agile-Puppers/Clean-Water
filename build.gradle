@@ -2,3 +2,22 @@
 apply plugin: "java"
 
 sourceCompatibility = 1.8
+
+//create a single jar with all dependencies
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Implementation-Title': 'Clean Water',
+                'Main-Class': 'agilepuppers.cleanwater.App'
+    }
+    baseName = project.name
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'com.lynden:GMapsFX:2.0.9'
+}

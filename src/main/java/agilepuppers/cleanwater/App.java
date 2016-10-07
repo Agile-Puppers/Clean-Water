@@ -1,6 +1,8 @@
 package agilepuppers.cleanwater;
 
-import agilepuppers.cleanwater.model.user.AccountDatabase;
+import agilepuppers.cleanwater.model.ErrorHandler;
+import agilepuppers.cleanwater.model.Logger;
+import agilepuppers.cleanwater.model.TextDatabase;
 import agilepuppers.cleanwater.model.user.UserAccount;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -15,8 +17,14 @@ import java.net.URL;
 public class App extends Application {
 
     public static final String NAME = "Clean Water";
-    public static App current;
 
+    // singletons
+    public static App current;
+    public static TextDatabase<UserAccount> accountDatabase;
+    public static Logger logger = new Logger();
+    public static ErrorHandler err = new ErrorHandler();
+
+    // instance variables
     private Stage primaryStage;
     private UserAccount user;
 
@@ -30,8 +38,7 @@ public class App extends Application {
 
         // anything you want to load/do before starting the application, put under here
 
-        AccountDatabase.setFile("./accounts.txt");
-
+        accountDatabase = new TextDatabase<UserAccount>("./db/accounts", UserAccount.USERNAME_KEY, "|", "=");
     }
 
     @Override
@@ -50,15 +57,14 @@ public class App extends Application {
         this.primaryStage.show();
     }
 
-
     /**
      * Sets the current scene in the stage specified to the scene specified.
      * Instead of setting the scene of the root, however, this method replaces
      * the "root" of the scene so the size of the window does not jarringly
      * change.
      *
-     * @param viewName  The name of the view to be loaded from the fxml file of the same name
-     * @param stage     The stage to set the scene of
+     * @param viewName The name of the view to be loaded from the fxml file of the same name
+     * @param stage    The stage to set the scene of
      */
     public void setScene(String viewName, Stage stage) {
         stage.getScene().setRoot(getScene(viewName));
@@ -67,7 +73,7 @@ public class App extends Application {
     /**
      * Sets the current scene in the main window of the application (primaryStage).
      *
-     * @param viewName  The name of the view to be loaded from the fxml file of the same name
+     * @param viewName The name of the view to be loaded from the fxml file of the same name
      */
     public void setScene(String viewName) {
         setScene(viewName, this.primaryStage);
@@ -78,7 +84,7 @@ public class App extends Application {
         try {
             return FXMLLoader.load(url);
         } catch (IOException e) {
-            App.current.error(App.FATAL, "Could not access scene");
+            App.err.fatalError("Could not access scene");
         }
         return null;
     }
@@ -89,31 +95,6 @@ public class App extends Application {
 
     public void setUser(UserAccount user) {
         this.user = user;
-    }
-
-    public static final int RECOVERABLE = 0;
-    public static final int FATAL = 1;
-
-    public void error(int errorType, String msg) {
-        if (errorType == RECOVERABLE) {
-            System.out.println("Error message: " + msg);
-            App.current.user = null;
-            App.current.setScene("LoginScreen");
-        } else {
-            System.exit(0);
-        }
-    }
-
-    public void error(String msg) {
-        error(RECOVERABLE, msg);
-    }
-
-    public void error(int errorType) {
-        error(errorType, "");
-    }
-
-    public void error() {
-        error(FATAL);
     }
 
 }

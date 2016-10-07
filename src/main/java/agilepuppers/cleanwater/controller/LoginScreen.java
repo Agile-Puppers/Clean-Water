@@ -1,18 +1,21 @@
 package agilepuppers.cleanwater.controller;
 
 import agilepuppers.cleanwater.App;
-import agilepuppers.cleanwater.model.user.AccountDatabase;
 import agilepuppers.cleanwater.model.user.UserAccount;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 
-public class LoginScreen extends Controller {
+import java.io.IOException;
+import java.util.HashMap;
+
+public class LoginScreen extends Controller implements FormScreen {
 
     @FXML private Text title;
     @FXML private TextField usernameField;
     @FXML private TextField passwordField;
+    @FXML private Text formFeedback;
 
     /**
      * Initializes login screen
@@ -25,6 +28,7 @@ public class LoginScreen extends Controller {
         title.setText(App.NAME);
 
     }
+
     /**
      * Logs a User into the system
      */
@@ -36,28 +40,33 @@ public class LoginScreen extends Controller {
         UserAccount user = validate(username.trim(), password);
 
         if (user == null) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle(null);
-            alert.setHeaderText("Invalid Username or Password");
-            alert.setContentText("Double check you entered your credentials correctly.");
-            alert.showAndWait();
+            displayMessage("Invalid Username or Password");
         } else {
             App.current.setUser(user);
             App.current.setScene("HomeScreen");
         }
     }
-    
+
     /**
-     * Validates username and password with account database
+     * Validates the username and password against the user account database
+     *
+     * @param username the username to validate against
+     * @param password the password to validate
+     * @return the user account belonging to the username if it validates, otherwise null
      */
     private UserAccount validate(String username, String password) {
-        UserAccount temp = AccountDatabase.getUserAccount(username);
-        if (temp != null && password != null && password.equals(temp.getPassword())) {
-            return temp;
+        try {
+            HashMap<String, String> temp = App.accountDatabase.queryEntry(username);
+
+            if (temp != null && password != null && password.equals(temp.get(UserAccount.PASSWORD_KEY))) {
+                return new UserAccount(temp);
+            }
+        } catch (IOException e) {
+            App.err.error("Could not validate login info");
         }
         return null;
     }
-    
+
     /**
      * Sets the scene to the registration page
      */
@@ -66,4 +75,9 @@ public class LoginScreen extends Controller {
         App.current.setScene("RegisterScreen");
     }
 
+    @Override
+    public void displayMessage(String message) {
+        formFeedback.setText(message);
+        formFeedback.setFill(Paint.valueOf("red"));
+    }
 }
