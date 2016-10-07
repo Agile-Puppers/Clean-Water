@@ -5,6 +5,9 @@ import java.lang.reflect.Constructor;
 import java.nio.file.Files;
 import java.util.*;
 import java.util.regex.Pattern;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class TextDatabase<T extends HashMapConvertible> {
 
@@ -21,6 +24,7 @@ public class TextDatabase<T extends HashMapConvertible> {
      * @param UID the property or column that is used to compare entries. intended to stand to "unique ID".
      * @param columnDelimiter the character (or string) that is used to split up the columns of each entry
      * @param keyValueDelimiter the character (or string) used to split up each key/value pair
+     * @param modelClass the .class of the desired Model type. This class must have a constructor that accepts a HashMap<String, String>.
      */
     public TextDatabase(String filePath, String UID, String columnDelimiter, String keyValueDelimiter, Class<T> modelClass) {
         this.filePath = filePath;
@@ -33,7 +37,21 @@ public class TextDatabase<T extends HashMapConvertible> {
     }
 
     /**
+     * Creates the database file if it doesn't already exist.
+     *
+     * @return the database file
+     * @throws IOException
+     */
+    private File getDatabaseFile() throws IOException {
+        File file = new File(filePath);
+        file.getParentFile().mkdirs(); // create all parent directories
+        file.createNewFile(); // create the file if it doesn't already exist
+        return file;
+    }
+
+    /**
      * Parses an array of key/value pairs into a HashMap
+     *
      * @param properties an array of key/value pairs
      * @return a HashMap representation of the given array
      */
@@ -49,6 +67,24 @@ public class TextDatabase<T extends HashMapConvertible> {
         }
 
         return entry;
+    }
+
+    /**
+     * Uses the modelClass to instantiate an object from the given HashMap
+     *
+     * @param hashMap the HashMap to use
+     * @return a fully instantiated object. Returns null if the modelClass doesn't have the appropriate constructor.
+     */
+    private T modelObjectFromHashMap(HashMap<String, String> hashMap) {
+        if (hashMap == null) return null;
+
+        try {
+            //attempt to call the deserialization constructor through Reflection
+            Constructor<T> deserialize = modelClass.getConstructor(HashMap.class);
+            return deserialize.newInstance(hashMap);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     /**
@@ -123,9 +159,7 @@ public class TextDatabase<T extends HashMapConvertible> {
      */
     public HashMap<String, String> queryEntryInfo(String id) throws IOException {
         if (id == null) return null;
-        File file = new File(filePath);
-        file.getParentFile().mkdirs(); // create all parent directories
-        file.createNewFile(); // create the file if it doesn't already exist
+        File file = this.getDatabaseFile();
 
         List<String> lines = Files.readAllLines(file.toPath());
         for (String line : lines) {
@@ -148,18 +182,33 @@ public class TextDatabase<T extends HashMapConvertible> {
      * @throws IOException
      */
     public T queryEntry(String id) throws IOException {
-        HashMap<String, String> entryInfo = this.queryEntryInfo(id);
-        if (entryInfo == null) {
+        HashMap<String, String> entry = this.queryEntryInfo(id);
+        if (entry == null) {
             return null;
         }
 
-        try {
-            //attempt to call the deserialization constructor through Reflection
-            Constructor<T> deserialize = modelClass.getConstructor(HashMap.class);
-            return deserialize.newInstance(entryInfo);
-        } catch (Exception e) {
-            return null;
-        }
+        return this.modelObjectFromHashMap(entry);
+    }
+
+    /**
+     * Get a list of all items in the database
+     * @return an array of all items in the database
+     * @throws IOException
+     */
+    public List<T> queryAllEntries() throws IOException {
+        File file = this.getDatabaseFile();
+        List<String> lines = Files.readAllLines(file.toPath());
+
+        //map the lines into model objects
+        List<T> entries = lines.stream().map(line -> {
+            String[] columns = line.split(Pattern.quote(columnDelimiter));
+            HashMap<String, String> entry = this.hashMapFromPropertyList(columns);
+            return this.modelObjectFromHashMap(entry);
+        }).filter(object -> {
+            return object != null;
+        }).collect(Collectors.toList());
+
+        return entries;
     }
 
     /**
@@ -168,9 +217,7 @@ public class TextDatabase<T extends HashMapConvertible> {
      * @throws IOException
      */
     public void flushQueue() throws IOException {
-        File file = new File(filePath);
-        file.getParentFile().mkdirs(); // create all parent directories
-        file.createNewFile(); // create the file if it doesn't already exist
+        File file = this.getDatabaseFile();
 
         //create a list of lines in the database, parsed into HashMaps
         List<HashMap<String, String>> data = new ArrayList<>();
@@ -221,7 +268,7 @@ public class TextDatabase<T extends HashMapConvertible> {
 
             //sanitize keys and values
             entry.forEach((key, value) -> {
-                if (key != null && value != null) {
+                if (key != null && value != null && !key.equals("") && !value.equals("")) {
                     key = key.replaceAll(Pattern.quote(columnDelimiter), "");
                     value = value.replaceAll(Pattern.quote(columnDelimiter), "");
                     key = key.replaceAll(Pattern.quote(keyValueDelimiter), "");
@@ -236,6 +283,7 @@ public class TextDatabase<T extends HashMapConvertible> {
                 for (int i = 1; i < columnList.size(); ++i) {
                     line += columnDelimiter + columnList.get(i);
                 }
+
                 out.println(line);
             }
         }

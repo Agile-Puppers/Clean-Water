@@ -64,7 +64,7 @@ public class EditSourceReportScreen extends Controller implements FormScreen {
         try {
             App.sourceReportDatabase.addEntry(report);
         } catch (IOException e) {
-            displayMessage("Could not save source report");
+            App.err.error("Could not save Water Source Report");
         }
 
         App.current.setScene("HomeScreen");
