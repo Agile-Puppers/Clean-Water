@@ -68,9 +68,9 @@ public class RegisterScreen extends Controller implements FormScreen {
         }
 
         UserAccount user = new UserAccount(username, password, auth, new UserProfile());
-        App.accountDatabase.queueAddEntry(user);
+
         try {
-            App.accountDatabase.flushQueue();
+            App.accountDatabase.addEntry(user);
 
             //log in the user and move on to the home screen
             App.current.setUser(user);

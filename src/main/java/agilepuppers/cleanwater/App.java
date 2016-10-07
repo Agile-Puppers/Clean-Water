@@ -3,6 +3,7 @@ package agilepuppers.cleanwater;
 import agilepuppers.cleanwater.model.ErrorHandler;
 import agilepuppers.cleanwater.model.Logger;
 import agilepuppers.cleanwater.model.TextDatabase;
+import agilepuppers.cleanwater.model.report.WaterSourceReport;
 import agilepuppers.cleanwater.model.user.UserAccount;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -21,6 +22,7 @@ public class App extends Application {
     // singletons
     public static App current;
     public static TextDatabase<UserAccount> accountDatabase;
+    public static TextDatabase<WaterSourceReport> sourceReportDatabase;
     public static Logger logger = new Logger();
     public static ErrorHandler err = new ErrorHandler();
 
@@ -38,7 +40,8 @@ public class App extends Application {
 
         // anything you want to load/do before starting the application, put under here
 
-        accountDatabase = new TextDatabase<UserAccount>("./db/accounts", UserAccount.USERNAME_KEY, "|", "=");
+        accountDatabase = new TextDatabase<>("./db/accounts", UserAccount.USERNAME_KEY, "|", "=", UserAccount.class);
+        sourceReportDatabase = new TextDatabase<>("./db/waterSourceReports", WaterSourceReport.ID_KEY, "|", "=", WaterSourceReport.class);
     }
 
     @Override

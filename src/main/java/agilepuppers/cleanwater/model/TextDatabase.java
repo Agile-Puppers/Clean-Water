@@ -1,6 +1,7 @@
 package agilepuppers.cleanwater.model;
 
 import java.io.*;
+import java.lang.reflect.Constructor;
 import java.nio.file.Files;
 import java.util.*;
 import java.util.regex.Pattern;
@@ -9,34 +10,44 @@ public class TextDatabase<T extends HashMapConvertible> {
 
     private final String filePath;
     private final String UID;
-    private final String delimiter;
-    private final String assoc;
+    private final String columnDelimiter;
+    private final String keyValueDelimiter;
+    private final Class<T> modelClass;
 
     private final Queue<Action> actionQueue;
 
     /**
-     * @param filePath  the path to database file
-     * @param UID       the property or column that is used to compare entries. intended to stand to "unique ID".
-     * @param delimiter the character (or string) that is used to split up the columns of each entry
-     * @param assoc     the character (or string) used to split up each key/value pair
+     * @param filePath the path to database file
+     * @param UID the property or column that is used to compare entries. intended to stand to "unique ID".
+     * @param columnDelimiter the character (or string) that is used to split up the columns of each entry
+     * @param keyValueDelimiter the character (or string) used to split up each key/value pair
      */
-    public TextDatabase(String filePath, String UID, String delimiter, String assoc) {
+    public TextDatabase(String filePath, String UID, String columnDelimiter, String keyValueDelimiter, Class<T> modelClass) {
         this.filePath = filePath;
         this.UID = UID;
-        this.delimiter = delimiter;
-        this.assoc = assoc;
+        this.columnDelimiter = columnDelimiter;
+        this.keyValueDelimiter = keyValueDelimiter;
+        this.modelClass = modelClass;
+
         actionQueue = new LinkedList<>();
     }
 
+    /**
+     * Parses an array of key/value pairs into a HashMap
+     * @param properties an array of key/value pairs
+     * @return a HashMap representation of the given array
+     */
     private HashMap<String, String> hashMapFromPropertyList(String[] properties) {
         HashMap<String, String> entry = new HashMap<>();
+
         for (String property : properties) {
-            if (property.contains(assoc)) {
-                String[] pair = property.split(Pattern.quote(assoc));
+            if (property.contains(keyValueDelimiter)) {
+                String[] pair = property.split(Pattern.quote(keyValueDelimiter));
                 if (pair.length < 2) continue;
                 entry.put(pair[0], pair[1]);
             }
         }
+
         return entry;
     }
 
@@ -47,7 +58,18 @@ public class TextDatabase<T extends HashMapConvertible> {
      */
     public void queueAddEntry(T item) {
         if (item == null) return;
-        actionQueue.add(new Action(ActionType.ADDROW, item));
+        actionQueue.add(new Action(ActionType.ADD_ROW, item));
+    }
+
+    /**
+     * Immediately performs an ADD action.
+     *
+     * @param item item to add to the database
+     * @throws IOException
+     */
+    public void addEntry(T item) throws IOException {
+        this.queueAddEntry(item);
+        this.flushQueue();
     }
 
     /**
@@ -57,7 +79,18 @@ public class TextDatabase<T extends HashMapConvertible> {
      */
     public void queueUpdateEntry(T item) {
         if (item == null) return;
-        actionQueue.add(new Action(ActionType.UPDATEROW, item));
+        actionQueue.add(new Action(ActionType.UPDATE_ROW, item));
+    }
+
+    /**
+     * Immediately performs an UPDATE action.
+     *
+     * @param item the item to update in the database
+     * @throws IOException
+     */
+    public void updateEntry(T item) throws IOException {
+        this.queueUpdateEntry(item);
+        this.flushQueue();
     }
 
     /**
@@ -67,7 +100,18 @@ public class TextDatabase<T extends HashMapConvertible> {
      */
     public void queueRemoveEntry(T item) {
         if (item == null) return;
-        actionQueue.add(new Action(ActionType.REMOVEROW, item));
+        actionQueue.add(new Action(ActionType.REMOVE_ROW, item));
+    }
+
+    /**
+     * Immediately performs a REMOVE action.
+     *
+     * @param item item to remove from the database
+     * @throws IOException
+     */
+    public void removeEntry(T item) throws IOException {
+        this.queueRemoveEntry(item);
+        this.flushQueue();
     }
 
     /**
@@ -77,7 +121,7 @@ public class TextDatabase<T extends HashMapConvertible> {
      * @return hashmap representing the entry queried
      * @throws IOException
      */
-    public HashMap<String, String> queryEntry(String id) throws IOException {
+    public HashMap<String, String> queryEntryInfo(String id) throws IOException {
         if (id == null) return null;
         File file = new File(filePath);
         file.getParentFile().mkdirs(); // create all parent directories
@@ -86,13 +130,36 @@ public class TextDatabase<T extends HashMapConvertible> {
         List<String> lines = Files.readAllLines(file.toPath());
         for (String line : lines) {
             if (line.trim().length() == 0) continue;
-            String[] columns = line.split(Pattern.quote(delimiter));
+            String[] columns = line.split(Pattern.quote(columnDelimiter));
             HashMap<String, String> entry = hashMapFromPropertyList(columns);
             if (id.equals(entry.get(UID))) {
                 return entry;
             }
         }
         return null;
+    }
+
+    /**
+     * Returns a fully instantiated object with the specified id
+     * @param id the unique identifier of the item to be queried
+     * @return a fully instantiated object. Returns null if the object doesn't exist,
+     *         or the modelClass doesn't have the appropriate constructor.
+     *
+     * @throws IOException
+     */
+    public T queryEntry(String id) throws IOException {
+        HashMap<String, String> entryInfo = this.queryEntryInfo(id);
+        if (entryInfo == null) {
+            return null;
+        }
+
+        try {
+            //attempt to call the deserialization constructor through Reflection
+            Constructor<T> deserialize = modelClass.getConstructor(HashMap.class);
+            return deserialize.newInstance(entryInfo);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     /**
@@ -105,53 +172,74 @@ public class TextDatabase<T extends HashMapConvertible> {
         file.getParentFile().mkdirs(); // create all parent directories
         file.createNewFile(); // create the file if it doesn't already exist
 
+        //create a list of lines in the database, parsed into HashMaps
         List<HashMap<String, String>> data = new ArrayList<>();
 
         List<String> lines = Files.readAllLines(file.toPath());
         for (String line : lines) {
             if (line.trim().length() == 0) continue;
-            String[] columns = line.split(Pattern.quote(delimiter));
+            String[] columns = line.split(Pattern.quote(columnDelimiter));
             HashMap<String, String> entry = hashMapFromPropertyList(columns);
             data.add(entry);
         }
 
+        //perform actions in the queue
         while (actionQueue.peek() != null) {
             Action action = actionQueue.poll();
-            HashMap<String, String> entry = action.item.toHashMap();
-            if (entry.get(UID) != null) {
-                if (action.type == ActionType.ADDROW || action.type == ActionType.UPDATEROW) {
+            HashMap<String, String> newEntry = action.item.toHashMap();
+
+            if (newEntry.get(UID) != null) { //if the new entry is valid
+
+                //perform ADD or UPDATE action
+                if (action.type == ActionType.ADD_ROW || action.type == ActionType.UPDATE_ROW) {
+
+                    //if the entry already exists in the databse, update the entry
                     boolean exists = false;
                     for (int i = 0; i < data.size(); ++i) {
-                        if (entry.get(UID).equals(data.get(i).get(UID))) {
+                        if (newEntry.get(UID).equals(data.get(i).get(UID))) {
                             exists = true;
-                            data.set(i, entry);
+                            data.set(i, newEntry);
                         }
                     }
-                    if (!exists) data.add(entry);
-                } else if (action.type == ActionType.REMOVEROW) {
-                    data.removeIf(row -> entry.get(UID).equals(row.get(UID)));
+
+                    //if the entry doesn't exist in the database, add it
+                    if (!exists) {
+                        data.add(newEntry);
+                    }
+
+                } else if (action.type == ActionType.REMOVE_ROW) {
+                    //remove the rows matching the given entry
+                    data.removeIf(row -> newEntry.get(UID).equals(row.get(UID)));
                 }
             }
         }
 
+        //rewrite the file with edits
         PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(filePath, false)));
         for (HashMap<String, String> entry : data) {
             List<String> columnList = new ArrayList<>();
+
+            //sanitize keys and values
             entry.forEach((key, value) -> {
-                key = key.replaceAll(Pattern.quote(delimiter), "");
-                value = value.replaceAll(Pattern.quote(delimiter), "");
-                key = key.replaceAll(Pattern.quote(assoc), "");
-                value = value.replaceAll(Pattern.quote(assoc), "");
-                columnList.add(key + assoc + value);
+                if (key != null && value != null) {
+                    key = key.replaceAll(Pattern.quote(columnDelimiter), "");
+                    value = value.replaceAll(Pattern.quote(columnDelimiter), "");
+                    key = key.replaceAll(Pattern.quote(keyValueDelimiter), "");
+                    value = value.replaceAll(Pattern.quote(keyValueDelimiter), "");
+                    columnList.add(key + keyValueDelimiter + value);
+                }
             });
+
+            //write the entry if it isn't empty
             if (columnList.size() > 0) {
                 String line = columnList.get(0);
                 for (int i = 1; i < columnList.size(); ++i) {
-                    line += delimiter + columnList.get(i);
+                    line += columnDelimiter + columnList.get(i);
                 }
                 out.println(line);
             }
         }
+
         out.close();
     }
 
@@ -166,7 +254,7 @@ public class TextDatabase<T extends HashMapConvertible> {
     }
 
     enum ActionType {
-        NONE, ADDROW, UPDATEROW, REMOVEROW
+        NONE, ADD_ROW, UPDATE_ROW, REMOVE_ROW
     }
 
 }
