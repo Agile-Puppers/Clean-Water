@@ -3,8 +3,8 @@ package agilepuppers.cleanwater.controller;
 import agilepuppers.cleanwater.App;
 import agilepuppers.cleanwater.model.user.UserAccount;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
@@ -15,6 +15,7 @@ public class LoginScreen extends Controller implements FormScreen {
     @FXML private Text title;
     @FXML private TextField usernameField;
     @FXML private TextField passwordField;
+    @FXML private Text formFeedback;
 
     /**
      * Initializes login screen
@@ -27,6 +28,7 @@ public class LoginScreen extends Controller implements FormScreen {
         title.setText(App.NAME);
 
     }
+
     /**
      * Logs a User into the system
      */
@@ -38,11 +40,7 @@ public class LoginScreen extends Controller implements FormScreen {
         UserAccount user = validate(username.trim(), password);
 
         if (user == null) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle(null);
-            alert.setHeaderText("Invalid Username or Password");
-            alert.setContentText("Double check you entered your credentials correctly.");
-            alert.showAndWait();
+            displayMessage("Invalid Username or Password");
         } else {
             App.current.setUser(user);
             App.current.setScene("HomeScreen");
@@ -68,7 +66,7 @@ public class LoginScreen extends Controller implements FormScreen {
         }
         return null;
     }
-    
+
     /**
      * Sets the scene to the registration page
      */
@@ -79,6 +77,7 @@ public class LoginScreen extends Controller implements FormScreen {
 
     @Override
     public void displayMessage(String message) {
-
+        formFeedback.setText(message);
+        formFeedback.setFill(Paint.valueOf("red"));
     }
 }

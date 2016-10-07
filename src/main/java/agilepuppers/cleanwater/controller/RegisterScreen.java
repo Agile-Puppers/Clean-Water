@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
@@ -22,6 +23,7 @@ public class RegisterScreen extends Controller implements FormScreen {
     @FXML private RadioButton workerButton;
     @FXML private RadioButton managerButton;
     @FXML private RadioButton adminButton;
+    @FXML private Text formFeedback;
     
     /**
      * Returns User to login screen upon cancelling the registration process
@@ -48,28 +50,18 @@ public class RegisterScreen extends Controller implements FormScreen {
         // Regex matches any alphanumeric string between 2 and 20 characters long
         Pattern f = Pattern.compile("^[a-zA-Z0-9]{2,20}$");
 
-        Alert alert = new Alert(Alert.AlertType.ERROR);
         if (!f.matcher(username).matches()) {
-            alert.setTitle(null);
-            alert.setHeaderText("Invalid Username");
-            alert.setContentText("Username can only contain: letters, numbers, and be 2 - 20 characters long.");
-            alert.showAndWait();
+            displayMessage("Username can only contain letters, numbers, and be 2 - 20 characters long");
             return; // username regex check
         }
         if (!f.matcher(password).matches()) {
-            alert.setTitle(null);
-            alert.setHeaderText("Invalid Password");
-            alert.setContentText("Password can only contain: letters, numbers, and be 2 - 20 characters long.");
-            alert.showAndWait();
+            displayMessage("Password can only contain letters, numbers, and be 2 - 20 characters long");
             return; // password regex check
         }
 
         try {
             if (App.accountDatabase.queryRow(username) != null) {
-                alert.setTitle(null);
-                alert.setHeaderText("Invalid Username");
-                alert.setContentText("Username is taken, be more creative.");
-                alert.showAndWait();
+                displayMessage("This username is taken, be more creative man");
                 return; // check for taken username
             }
         } catch (IOException e) {
@@ -92,6 +84,7 @@ public class RegisterScreen extends Controller implements FormScreen {
 
     @Override
     public void displayMessage(String message) {
-
+        formFeedback.setText(message);
+        formFeedback.setFill(Paint.valueOf("red"));
     }
 }
