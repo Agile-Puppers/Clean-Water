@@ -5,7 +5,6 @@ import agilepuppers.cleanwater.model.user.AuthorizationLevel;
 import agilepuppers.cleanwater.model.user.UserAccount;
 import agilepuppers.cleanwater.model.user.UserProfile;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Paint;
@@ -60,7 +59,7 @@ public class RegisterScreen extends Controller implements FormScreen {
         }
 
         try {
-            if (App.accountDatabase.queryRow(username) != null) {
+            if (App.accountDatabase.queryEntry(username) != null) {
                 displayMessage("This username is taken, be more creative man");
                 return; // check for taken username
             }
@@ -69,7 +68,7 @@ public class RegisterScreen extends Controller implements FormScreen {
         }
 
         UserAccount user = new UserAccount(username, password, auth, new UserProfile());
-        App.accountDatabase.queueAddRow(user);
+        App.accountDatabase.queueAddEntry(user);
         try {
             App.accountDatabase.flushQueue();
 

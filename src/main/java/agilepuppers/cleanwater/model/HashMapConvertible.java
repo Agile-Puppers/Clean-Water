@@ -2,7 +2,7 @@ package agilepuppers.cleanwater.model;
 
 import java.util.HashMap;
 
-public interface HashMapConvertible {
+public interface HashMapConvertible<T> {
 
     /**
      * Builds a HashMap representation of the object
@@ -10,5 +10,7 @@ public interface HashMapConvertible {
      * @return the object represented as a Hash Map
      */
     HashMap<String, String> toHashMap();
+
+    static T fromHashMap(HashMap<String, String>);
 
 }

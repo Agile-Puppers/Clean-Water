@@ -56,7 +56,7 @@ public class LoginScreen extends Controller implements FormScreen {
      */
     private UserAccount validate(String username, String password) {
         try {
-            HashMap<String, String> temp = App.accountDatabase.queryRow(username);
+            HashMap<String, String> temp = App.accountDatabase.queryEntry(username);
 
             if (temp != null && password != null && password.equals(temp.get(UserAccount.PASSWORD_KEY))) {
                 return new UserAccount(temp);

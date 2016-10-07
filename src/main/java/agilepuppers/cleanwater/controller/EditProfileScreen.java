@@ -64,7 +64,7 @@ public class EditProfileScreen extends Controller implements FormScreen {
         profile.setEmail(email);
         profile.setAddress(address);
 
-        App.accountDatabase.queueUpdateRow(App.current.getUser());
+        App.accountDatabase.queueUpdateEntry(App.current.getUser());
         try {
             App.accountDatabase.flushQueue();
         } catch (IOException e) {

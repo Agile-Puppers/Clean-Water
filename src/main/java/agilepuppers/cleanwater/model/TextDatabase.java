@@ -28,10 +28,6 @@ public class TextDatabase<T extends HashMapConvertible> {
         actionQueue = new LinkedList<>();
     }
 
-    /**
-     * @param properties    the array of key/value pairs
-     * @return hashmap of the key/value pairs from the string array
-     */
     private HashMap<String, String> hashMapFromPropertyList(String[] properties) {
         HashMap<String, String> entry = new HashMap<>();
         for (String property : properties) {
@@ -47,9 +43,9 @@ public class TextDatabase<T extends HashMapConvertible> {
     /**
      * Queues an ADD action, does not do it immediately
      *
-     * @param item  item to add to the database
+     * @param item item to add to the database
      */
-    public void queueAddRow(T item) {
+    public void queueAddEntry(T item) {
         if (item == null) return;
         actionQueue.add(new Action(ActionType.ADDROW, item));
     }
@@ -57,9 +53,9 @@ public class TextDatabase<T extends HashMapConvertible> {
     /**
      * Queues an UPDATE action, does not do it immediately
      *
-     * @param item  item to update in the database
+     * @param item item to update in the database
      */
-    public void queueUpdateRow(T item) {
+    public void queueUpdateEntry(T item) {
         if (item == null) return;
         actionQueue.add(new Action(ActionType.UPDATEROW, item));
     }
@@ -67,9 +63,9 @@ public class TextDatabase<T extends HashMapConvertible> {
     /**
      * Queues a REMOVE action, does not do it immediately
      *
-     * @param item  item to remove from the database
+     * @param item item to remove from the database
      */
-    public void queueRemoveRow(T item) {
+    public void queueRemoveEntry(T item) {
         if (item == null) return;
         actionQueue.add(new Action(ActionType.REMOVEROW, item));
     }
@@ -77,11 +73,11 @@ public class TextDatabase<T extends HashMapConvertible> {
     /**
      * Returns the entry with the specified id as a hashmap
      *
-     * @param id    the unique identifier of the item to be queried
+     * @param id the unique identifier of the item to be queried
      * @return hashmap representing the entry queried
      * @throws IOException
      */
-    public HashMap<String, String> queryRow(String id) throws IOException {
+    public HashMap<String, String> queryEntry(String id) throws IOException {
         if (id == null) return null;
         File file = new File(filePath);
         file.getParentFile().mkdirs(); // create all parent directories
