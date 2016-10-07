@@ -137,7 +137,13 @@ public class TextDatabase<T extends HashMapConvertible> {
         PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(filePath, false)));
         for (HashMap<String, String> entry : data) {
             List<String> columnList = new ArrayList<>();
-            entry.forEach((key, value) -> columnList.add(key + assoc + value));
+            entry.forEach((key, value) -> {
+                key = key.replaceAll(Pattern.quote(delimiter), "");
+                value = value.replaceAll(Pattern.quote(delimiter), "");
+                key = key.replaceAll(Pattern.quote(assoc), "");
+                value = value.replaceAll(Pattern.quote(assoc), "");
+                columnList.add(key + assoc + value);
+            });
             if (columnList.size() > 0) {
                 String line = columnList.get(0);
                 for (int i = 1; i < columnList.size(); ++i) {
