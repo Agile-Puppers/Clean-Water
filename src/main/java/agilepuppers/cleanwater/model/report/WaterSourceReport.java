@@ -6,7 +6,7 @@ import agilepuppers.cleanwater.model.user.UserAccount;
 import java.util.Date;
 import java.util.HashMap;
 
-public class WaterSourceReport extends HashMapConvertible {
+public class WaterSourceReport implements HashMapConvertible {
 
     private Date timeCreated;
     private int reportId;
@@ -84,7 +84,7 @@ public class WaterSourceReport extends HashMapConvertible {
      * Creates a HashMap that represents this report
      * @return a HashMap representation of this object
      */
-    @Override public HashMap<String, String> convertToHashMap() {
+    @Override public HashMap<String, String> toHashMap() {
         HashMap<String, String> hashMap = new HashMap<>();
 
         hashMap.put(TIME_CREATED_KEY, this.timeCreated.toString());

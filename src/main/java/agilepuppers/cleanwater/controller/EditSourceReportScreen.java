@@ -64,7 +64,7 @@ public class EditSourceReportScreen extends Controller implements FormScreen {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(null);
         alert.setHeaderText("Created Water Source Report");
-        alert.setContentText(report.serialize());
+        //alert.setContentText(report.serialize());
         alert.showAndWait();
     }
 

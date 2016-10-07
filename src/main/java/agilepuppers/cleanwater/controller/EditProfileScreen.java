@@ -1,11 +1,12 @@
 package agilepuppers.cleanwater.controller;
 
 import agilepuppers.cleanwater.App;
-import agilepuppers.cleanwater.model.user.AccountDatabase;
 import agilepuppers.cleanwater.model.user.UserAccount;
 import agilepuppers.cleanwater.model.user.UserProfile;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+
+import java.io.IOException;
 
 public class EditProfileScreen extends Controller implements FormScreen {
 
@@ -63,15 +64,18 @@ public class EditProfileScreen extends Controller implements FormScreen {
         profile.setEmail(email);
         profile.setAddress(address);
 
-        //remove and resave the account
-        AccountDatabase.removeAccount(App.current.getUser().getUsername());
-        AccountDatabase.addAccount(App.current.getUser());
+        App.accountDatabase.queueUpdateRow(App.current.getUser());
+        try {
+            App.accountDatabase.flushQueue();
+        } catch (IOException e) {
+            App.err.error("Could not update profile");
+        }
 
         App.current.setScene("HomeScreen");
     }
 
     @Override
     public void displayMessage(String message) {
-
+        // no implementation needed
     }
 }

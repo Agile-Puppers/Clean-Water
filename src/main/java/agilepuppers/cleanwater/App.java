@@ -1,7 +1,7 @@
 package agilepuppers.cleanwater;
 
 import agilepuppers.cleanwater.model.Logger;
-import agilepuppers.cleanwater.model.user.AccountDatabase;
+import agilepuppers.cleanwater.model.TextDatabase;
 import agilepuppers.cleanwater.model.user.UserAccount;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -19,9 +19,11 @@ public class App extends Application {
 
     // singletons
     public static App current;
+    public static TextDatabase<UserAccount> accountDatabase;
     public static Logger logger = new Logger();
     public static ErrorHandler err = new ErrorHandler();
 
+    // instance variables
     private Stage primaryStage;
     private UserAccount user;
 
@@ -35,8 +37,7 @@ public class App extends Application {
 
         // anything you want to load/do before starting the application, put under here
 
-        AccountDatabase.setFile("./accounts.txt");
-
+        accountDatabase = new TextDatabase<UserAccount>("./db/accounts", UserAccount.USERNAME_KEY, "|", "=");
     }
 
     @Override
@@ -55,15 +56,14 @@ public class App extends Application {
         this.primaryStage.show();
     }
 
-
     /**
      * Sets the current scene in the stage specified to the scene specified.
      * Instead of setting the scene of the root, however, this method replaces
      * the "root" of the scene so the size of the window does not jarringly
      * change.
      *
-     * @param viewName  The name of the view to be loaded from the fxml file of the same name
-     * @param stage     The stage to set the scene of
+     * @param viewName The name of the view to be loaded from the fxml file of the same name
+     * @param stage    The stage to set the scene of
      */
     public void setScene(String viewName, Stage stage) {
         stage.getScene().setRoot(getScene(viewName));
@@ -72,7 +72,7 @@ public class App extends Application {
     /**
      * Sets the current scene in the main window of the application (primaryStage).
      *
-     * @param viewName  The name of the view to be loaded from the fxml file of the same name
+     * @param viewName The name of the view to be loaded from the fxml file of the same name
      */
     public void setScene(String viewName) {
         setScene(viewName, this.primaryStage);

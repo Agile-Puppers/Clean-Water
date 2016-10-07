@@ -4,11 +4,6 @@ import java.util.HashMap;
 
 public class UserProfile {
 
-    private static final String TITLE_KEY = "title";
-    private static final String NAME_KEY = "fullname";
-    private static final String EMAIL_KEY = "emailaddress";
-    private static final String ADDRESS_KEY = "homeaddress";
-
     //instance variables
     private String TITLE;
     private String NAME;
@@ -40,28 +35,15 @@ public class UserProfile {
     }
 
     /**
-     * Setter for the users title
-     * @param title the users title
+     * Converts a user profile hash map into a new user profile
+     * @param hashMap the hash map of the user profile instance variables
      */
-    public void setTitle(String title) { this.TITLE = title; }
-
-    /**
-     * Setter for the users name
-     * @param name the users name
-     */
-    public void setName(String name) { this.NAME = name; }
-
-    /**
-     * Setter for the users email address
-     * @param email the users email address
-     */
-    public void setEmail(String email) { this.EMAIL = email; }
-
-    /**
-     * Setter for the users home address
-     * @param address the users home address
-     */
-    public void setAddress(String address) { this.ADDRESS = address; }
+    public UserProfile(HashMap<String, String> hashMap) {
+        this.TITLE = hashMap.get(UserAccount.TITLE_KEY);
+        this.NAME = hashMap.get(UserAccount.NAME_KEY);
+        this.EMAIL = hashMap.get(UserAccount.EMAIL_KEY);
+        this.ADDRESS = hashMap.get(UserAccount.ADDRESS_KEY);
+    }
 
     /**
      * Getter for the users title
@@ -87,32 +69,28 @@ public class UserProfile {
      */
     public String getAddress() { return ADDRESS; }
 
-
-    //serialization methods
+    /**
+     * Setter for the users title
+     * @param title the users title
+     */
+    public void setTitle(String title) { this.TITLE = title; }
 
     /**
-     * Converts the users title, name, email address, and home address into a hash map
-     * @return the hash map of the user profile instance variables
+     * Setter for the users name
+     * @param name the users name
      */
-    public HashMap<String, String> convertToHashMap() {
-        HashMap<String, String> map = new HashMap<>();
-        map.put(TITLE_KEY, TITLE);
-        map.put(NAME_KEY, NAME);
-        map.put(EMAIL_KEY, EMAIL);
-        map.put(ADDRESS_KEY, ADDRESS);
-
-        return map;
-    }
+    public void setName(String name) { this.NAME = name; }
 
     /**
-     * Converts a user profile hash map into a new user profile
-     * @param hashMap the hash map of the user profile instance variables
+     * Setter for the users email address
+     * @param email the users email address
      */
-    public UserProfile(HashMap<String, String> hashMap) {
-        this.TITLE = hashMap.get(TITLE_KEY);
-        this.NAME = hashMap.get(NAME_KEY);
-        this.EMAIL = hashMap.get(EMAIL_KEY);
-        this.ADDRESS = hashMap.get(ADDRESS_KEY);
-    }
+    public void setEmail(String email) { this.EMAIL = email; }
+
+    /**
+     * Setter for the users home address
+     * @param address the users home address
+     */
+    public void setAddress(String address) { this.ADDRESS = address; }
 
 }

@@ -1,0 +1,2 @@
+password=pass|homeaddress=123 Main St., New York|authlevel=USER|emailaddress=user@example.com|fullname=User McUserface|title=Mr.|username=user
+password=pass|homeaddress=|authlevel=ADMIN|emailaddress=|fullname=|title=|username=admin
