@@ -11,6 +11,4 @@ public interface HashMapConvertible<T> {
      */
     HashMap<String, String> toHashMap();
 
-    static T fromHashMap(HashMap<String, String>);
-
 }
