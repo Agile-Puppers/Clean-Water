@@ -1,6 +1,7 @@
 package agilepuppers.cleanwater.controller;
 
 import agilepuppers.cleanwater.App;
+import agilepuppers.cleanwater.model.report.WaterSourceReport;
 import com.lynden.gmapsfx.GoogleMapView;
 import com.lynden.gmapsfx.MapComponentInitializedListener;
 import com.lynden.gmapsfx.javascript.object.GoogleMap;
@@ -9,6 +10,9 @@ import com.lynden.gmapsfx.javascript.object.MapOptions;
 import com.lynden.gmapsfx.javascript.object.MapTypeIdEnum;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+
+import java.io.IOException;
+import java.util.List;
 
 public class HomeScreen implements MapComponentInitializedListener {
 

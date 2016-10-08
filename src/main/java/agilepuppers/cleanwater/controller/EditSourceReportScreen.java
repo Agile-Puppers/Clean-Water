@@ -9,6 +9,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 
+import java.io.IOException;
+
 public class EditSourceReportScreen extends Controller implements FormScreen {
 
     @FXML private TextField locationField;
@@ -59,13 +61,13 @@ public class EditSourceReportScreen extends Controller implements FormScreen {
 
         WaterSourceReport report = new WaterSourceReport(App.current.getUser(), location, waterType, waterCondition);
 
-        App.current.setScene("HomeScreen");
+        try {
+            App.sourceReportDatabase.addEntry(report);
+        } catch (IOException e) {
+            App.err.error("Could not save Water Source Report");
+        }
 
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(null);
-        alert.setHeaderText("Created Water Source Report");
-        //alert.setContentText(report.serialize());
-        alert.showAndWait();
+        App.current.setScene("HomeScreen");
     }
 
     @Override

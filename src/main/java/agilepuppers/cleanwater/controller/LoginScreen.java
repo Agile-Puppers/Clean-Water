@@ -56,14 +56,15 @@ public class LoginScreen extends Controller implements FormScreen {
      */
     private UserAccount validate(String username, String password) {
         try {
-            HashMap<String, String> temp = App.accountDatabase.queryEntry(username);
+            UserAccount account = App.accountDatabase.queryEntry(username);
 
-            if (temp != null && password != null && password.equals(temp.get(UserAccount.PASSWORD_KEY))) {
-                return new UserAccount(temp);
+            if (account != null && account.getPassword() != null && password.equals(account.getPassword())) {
+                return account;
             }
         } catch (IOException e) {
             App.err.error("Could not validate login info");
         }
+
         return null;
     }
 

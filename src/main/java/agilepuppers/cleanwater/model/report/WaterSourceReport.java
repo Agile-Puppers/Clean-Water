@@ -3,6 +3,8 @@ package agilepuppers.cleanwater.model.report;
 import agilepuppers.cleanwater.model.HashMapConvertible;
 import agilepuppers.cleanwater.model.user.UserAccount;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -98,6 +100,34 @@ public class WaterSourceReport implements HashMapConvertible {
         hashMap.put(CONDITION_KEY, this.waterCondition.toString());
 
         return hashMap;
+    }
+
+    /**
+     * Creates a report from a HashMap
+     *
+     * @param hashMap the HashMap that represents the object
+     */
+    public WaterSourceReport(HashMap<String, String> hashMap) {
+        try {
+            String timeCreatedString = hashMap.get(TIME_CREATED_KEY);
+            this.timeCreated = DateFormat.getDateInstance().parse(timeCreatedString);
+        } catch (ParseException e) {
+            this.timeCreated = new Date();
+        }
+
+        try {
+            String idString = hashMap.get(ID_KEY);
+            this.reportId = Integer.parseInt(idString);
+        } catch (NumberFormatException e) {
+            this.reportId = -1;
+        }
+
+        this.authorName = hashMap.get(AUTHOR_NAME_KEY);
+        this.authorUsername = hashMap.get(AUTHOR_USERNAME_KEY);
+        this.location = hashMap.get(LOCATION_KEY);
+
+        this.waterType = WaterType.valueOf(hashMap.get(TYPE_KEY));
+        this.waterCondition = WaterCondition.valueOf(hashMap.get(CONDITION_KEY));
     }
 
 }
