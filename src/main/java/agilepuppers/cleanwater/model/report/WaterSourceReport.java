@@ -71,6 +71,14 @@ public class WaterSourceReport implements HashMapConvertible {
         return waterCondition;
     }
 
+    public String getAuthorDisplayName() {
+        if (this.authorName != null) {
+            return this.authorName;
+        } else {
+            return this.authorUsername;
+        }
+    }
+
 
     //serialization support
 

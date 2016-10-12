@@ -1,3 +1,4 @@
 condition=POTABLE|location=Klaus 1443|time=Fri Oct 07 12:43:05 EDT 2016|id=225132238|type=BOTTLED|username=cal
 condition=WASTE|location=CULC Bathroom|time=Fri Oct 07 12:50:57 EDT 2016|id=413677868|type=OTHER|username=cal
 condition=TREATABLE_MUDDY|author=User McUserface|location=CULC|time=Fri Oct 07 17:54:47 EDT 2016|id=238269101|type=LAKE|username=user
+condition=WASTE|author=Gabor Siffel|location=Smith Residence Hall|time=Wed Oct 12 18:10:31 EDT 2016|id=80411217|type=WELL|username=gabor

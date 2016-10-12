@@ -76,4 +76,10 @@ public class HomeScreen implements MapComponentInitializedListener {
         App.current.setScene("EditSourceReportScreen");
     }
 
+    /**
+     * Navgates to the screen to view all Source Reports
+     */
+    @FXML
+    private void viewReports() { App.current.setScene("ViewSourceReportsScreen"); }
+
 }

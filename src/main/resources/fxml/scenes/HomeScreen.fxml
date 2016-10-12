@@ -20,8 +20,8 @@
    <children>
       <GridPane style="-fx-padding: 10px;">
          <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="629.0" minWidth="10.0" prefWidth="201.0" />
-            <ColumnConstraints maxWidth="539.0" minWidth="106.0" prefWidth="534.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="629.0" minWidth="10.0" prefWidth="294.0" />
+            <ColumnConstraints maxWidth="539.0" minWidth="106.0" prefWidth="486.0" />
          </columnConstraints>
          <rowConstraints>
             <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
@@ -45,6 +45,11 @@
 
              </Button>
              <Button mnemonicParsing="false" onAction="#createSourceReport" text="Submit Source Report" GridPane.halignment="LEFT" GridPane.valignment="CENTER" />
+            <Button layoutX="20.0" layoutY="20.0" mnemonicParsing="false" onAction="#viewReports" text="View Reports">
+               <GridPane.margin>
+                  <Insets left="170.0" />
+               </GridPane.margin>
+            </Button>
          </children>
       </GridPane>
    
