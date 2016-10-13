@@ -68,6 +68,20 @@ public class UserAccount implements HashMapConvertible {
         return profile;
     }
 
+    @Override
+    public HashMap<String, String> toHashMap() {
+        HashMap<String, String> map = new HashMap<>();
+
+        map.put(USERNAME_KEY, USERNAME);
+        map.put(PASSWORD_KEY, PASSWORD);
+        map.put(AUTHORIZATION_KEY, AUTHORIZATION.toString());
+        map.put(TITLE_KEY, profile.getTitle());
+        map.put(NAME_KEY, profile.getName());
+        map.put(EMAIL_KEY, profile.getEmail());
+        map.put(ADDRESS_KEY, profile.getAddress());
+
+        return map;
+    }
 
     /**
      * Builds a UserAccount from the given HashMap
@@ -84,19 +98,11 @@ public class UserAccount implements HashMapConvertible {
         this.profile = new UserProfile(hashmap);
     }
 
-    @Override
-    public HashMap<String, String> toHashMap() {
-        HashMap<String, String> map = new HashMap<>();
-
-        map.put(USERNAME_KEY, USERNAME);
-        map.put(PASSWORD_KEY, PASSWORD);
-        map.put(AUTHORIZATION_KEY, AUTHORIZATION.toString());
-        map.put(TITLE_KEY, profile.getTitle());
-        map.put(NAME_KEY, profile.getName());
-        map.put(EMAIL_KEY, profile.getEmail());
-        map.put(ADDRESS_KEY, profile.getAddress());
-
-        return map;
-    }
+    public static Factory<UserAccount> factory = new Factory<UserAccount>() {
+        @Override
+        public UserAccount fromHashMap(HashMap<String, String> hashMap) {
+            return new UserAccount(hashMap);
+        }
+    };
 
 }

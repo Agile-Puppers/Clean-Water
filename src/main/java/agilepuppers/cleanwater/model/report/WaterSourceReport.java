@@ -138,4 +138,11 @@ public class WaterSourceReport implements HashMapConvertible {
         this.waterCondition = WaterCondition.valueOf(hashMap.get(CONDITION_KEY));
     }
 
+    public static Factory<WaterSourceReport> factory = new Factory<WaterSourceReport>() {
+        @Override
+        public WaterSourceReport fromHashMap(HashMap<String, String> hashMap) {
+            return new WaterSourceReport(hashMap);
+        }
+    };
+
 }

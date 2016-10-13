@@ -15,7 +15,8 @@ public class TextDatabase<T extends HashMapConvertible> {
     private final String UID;
     private final String columnDelimiter;
     private final String keyValueDelimiter;
-    private final Class<T> modelClass;
+
+    private final HashMapConvertible.Factory<T> factory;
 
     private final Queue<Action> actionQueue;
 
@@ -24,16 +25,26 @@ public class TextDatabase<T extends HashMapConvertible> {
      * @param UID the property or column that is used to compare entries. intended to stand to "unique ID".
      * @param columnDelimiter the character (or string) that is used to split up the columns of each entry
      * @param keyValueDelimiter the character (or string) used to split up each key/value pair
-     * @param modelClass the .class of the desired Model type. This class must have a constructor that accepts a HashMap<String, String>.
+     * @param factory instance of the factory that can create a new instance of the modeled object from a hashmap
      */
-    public TextDatabase(String filePath, String UID, String columnDelimiter, String keyValueDelimiter, Class<T> modelClass) {
+    public TextDatabase(String filePath, String UID, String columnDelimiter, String keyValueDelimiter, HashMapConvertible.Factory<T> factory) {
         this.filePath = filePath;
         this.UID = UID;
         this.columnDelimiter = columnDelimiter;
         this.keyValueDelimiter = keyValueDelimiter;
-        this.modelClass = modelClass;
+
+        this.factory = factory;
 
         actionQueue = new LinkedList<>();
+    }
+
+    /**
+     * @param filePath the path to database file
+     * @param UID the property or column that is used to compare entries. intended to stand to "unique ID".
+     * @param factory instance of the factory that can create a new instance of the modeled object from a hashmap
+     */
+    public TextDatabase(String filePath, String UID, HashMapConvertible.Factory<T> factory) {
+        this(filePath, UID, "|", "=", factory);
     }
 
     /**
@@ -77,14 +88,7 @@ public class TextDatabase<T extends HashMapConvertible> {
      */
     private T modelObjectFromHashMap(HashMap<String, String> hashMap) {
         if (hashMap == null) return null;
-
-        try {
-            //attempt to call the deserialization constructor through Reflection
-            Constructor<T> deserialize = modelClass.getConstructor(HashMap.class);
-            return deserialize.newInstance(hashMap);
-        } catch (Exception e) {
-            return null;
-        }
+        return factory.fromHashMap(hashMap);
     }
 
     /**
