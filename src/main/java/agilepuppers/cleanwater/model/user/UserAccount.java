@@ -21,13 +21,14 @@ public class UserAccount implements HashMapConvertible {
     private final AuthorizationLevel AUTHORIZATION;
 
     private UserProfile profile;
-    
+
     /**
      * Constructor for a new User Account
-     * @param username the account's username
-     * @param password the account's password
+     *
+     * @param username      the account's username
+     * @param password      the account's password
      * @param authorization the account's authorization level
-     * @param profile the account's profile
+     * @param profile       the account's profile
      */
     public UserAccount(String username, String password, AuthorizationLevel authorization, UserProfile profile) {
         this.USERNAME = username;
@@ -38,6 +39,7 @@ public class UserAccount implements HashMapConvertible {
 
     /**
      * Getter for the account's username
+     *
      * @return the account's username
      */
     public String getUsername() {
@@ -46,6 +48,7 @@ public class UserAccount implements HashMapConvertible {
 
     /**
      * Getter for the account's password
+     *
      * @return the account's password
      */
     public String getPassword() {
@@ -54,14 +57,16 @@ public class UserAccount implements HashMapConvertible {
 
     /**
      * Getter for the account's authorization level
+     *
      * @return the account's authorization level
      */
     public AuthorizationLevel getAuthorization() {
         return AUTHORIZATION;
     }
-    
+
     /**
      * Getter for the account's profile
+     *
      * @return the account's profile
      */
     public UserProfile getProfile() {

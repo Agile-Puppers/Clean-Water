@@ -1,13 +1,10 @@
 package agilepuppers.cleanwater.model;
 
 import java.io.*;
-import java.lang.reflect.Constructor;
 import java.nio.file.Files;
 import java.util.*;
 import java.util.regex.Pattern;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class TextDatabase<T extends HashMapConvertible> {
 
@@ -21,11 +18,11 @@ public class TextDatabase<T extends HashMapConvertible> {
     private final Queue<Action> actionQueue;
 
     /**
-     * @param filePath the path to database file
-     * @param UID the property or column that is used to compare entries. intended to stand to "unique ID".
-     * @param columnDelimiter the character (or string) that is used to split up the columns of each entry
+     * @param filePath          the path to database file
+     * @param UID               the property or column that is used to compare entries. intended to stand to "unique ID".
+     * @param columnDelimiter   the character (or string) that is used to split up the columns of each entry
      * @param keyValueDelimiter the character (or string) used to split up each key/value pair
-     * @param factory instance of the factory that can create a new instance of the modeled object from a hashmap
+     * @param factory           instance of the factory that can create a new instance of the modeled object from a hashmap
      */
     public TextDatabase(String filePath, String UID, String columnDelimiter, String keyValueDelimiter, HashMapConvertible.Factory<T> factory) {
         this.filePath = filePath;
@@ -40,8 +37,8 @@ public class TextDatabase<T extends HashMapConvertible> {
 
     /**
      * @param filePath the path to database file
-     * @param UID the property or column that is used to compare entries. intended to stand to "unique ID".
-     * @param factory instance of the factory that can create a new instance of the modeled object from a hashmap
+     * @param UID      the property or column that is used to compare entries. intended to stand to "unique ID".
+     * @param factory  instance of the factory that can create a new instance of the modeled object from a hashmap
      */
     public TextDatabase(String filePath, String UID, HashMapConvertible.Factory<T> factory) {
         this(filePath, UID, "|", "=", factory);
@@ -179,10 +176,10 @@ public class TextDatabase<T extends HashMapConvertible> {
 
     /**
      * Returns a fully instantiated object with the specified id
+     *
      * @param id the unique identifier of the item to be queried
      * @return a fully instantiated object. Returns null if the object doesn't exist,
-     *         or the modelClass doesn't have the appropriate constructor.
-     *
+     * or the modelClass doesn't have the appropriate constructor.
      * @throws IOException
      */
     public T queryEntry(String id) throws IOException {
@@ -196,6 +193,7 @@ public class TextDatabase<T extends HashMapConvertible> {
 
     /**
      * Get a list of all items in the database
+     *
      * @return an array of all items in the database
      * @throws IOException
      */

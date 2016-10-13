@@ -23,9 +23,9 @@ public class WaterSourceReport implements HashMapConvertible {
     /**
      * Create a new Water Source Report
      *
-     * @param author The UserAccount that created the report. Must not be null.
-     * @param location The reported location of the water.
-     * @param waterType The type of the water.
+     * @param author         The UserAccount that created the report. Must not be null.
+     * @param location       The reported location of the water.
+     * @param waterType      The type of the water.
      * @param waterCondition The condition of the water.
      */
     public WaterSourceReport(UserAccount author, String location, WaterType waterType, WaterCondition waterCondition) {
@@ -39,7 +39,6 @@ public class WaterSourceReport implements HashMapConvertible {
         this.waterType = waterType;
         this.waterCondition = waterCondition;
     }
-
 
     //getters
 
@@ -79,7 +78,6 @@ public class WaterSourceReport implements HashMapConvertible {
         }
     }
 
-
     //serialization support
 
     public static final String TIME_CREATED_KEY = "time";
@@ -92,9 +90,11 @@ public class WaterSourceReport implements HashMapConvertible {
 
     /**
      * Creates a HashMap that represents this report
+     *
      * @return a HashMap representation of this object
      */
-    @Override public HashMap<String, String> toHashMap() {
+    @Override
+    public HashMap<String, String> toHashMap() {
         HashMap<String, String> hashMap = new HashMap<>();
 
         hashMap.put(TIME_CREATED_KEY, this.timeCreated.toString());
