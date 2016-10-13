@@ -40,8 +40,8 @@ public class App extends Application {
 
         // anything you want to load/do before starting the application, put under here
 
-        accountDatabase = new TextDatabase<>("./db/accounts", UserAccount.USERNAME_KEY, "|", "=", UserAccount.factory);
-        sourceReportDatabase = new TextDatabase<>("./db/waterSourceReports", WaterSourceReport.ID_KEY, "|", "=", WaterSourceReport.factory);
+        accountDatabase = new TextDatabase<>("./db/accounts", UserAccount.USERNAME_KEY, UserAccount.factory);
+        sourceReportDatabase = new TextDatabase<>("./db/waterSourceReports", WaterSourceReport.ID_KEY, WaterSourceReport.factory);
     }
 
     @Override
