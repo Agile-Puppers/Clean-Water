@@ -4,10 +4,7 @@ import agilepuppers.cleanwater.App;
 import agilepuppers.cleanwater.model.report.WaterSourceReport;
 import com.lynden.gmapsfx.GoogleMapView;
 import com.lynden.gmapsfx.MapComponentInitializedListener;
-import com.lynden.gmapsfx.javascript.object.GoogleMap;
-import com.lynden.gmapsfx.javascript.object.LatLong;
-import com.lynden.gmapsfx.javascript.object.MapOptions;
-import com.lynden.gmapsfx.javascript.object.MapTypeIdEnum;
+import com.lynden.gmapsfx.javascript.object.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
@@ -22,9 +19,6 @@ public class HomeScreen extends Controller implements MapComponentInitializedLis
 
     private GoogleMap map;
 
-    /**
-     * Initializes Home screen
-     */
     @FXML
     private void initialize() {
         String username = App.current.getUser().getUsername();
@@ -38,17 +32,29 @@ public class HomeScreen extends Controller implements MapComponentInitializedLis
 
         MapOptions mapOptions = new MapOptions();
 
-        mapOptions.center(new LatLong(0, 0))
-                .mapType(MapTypeIdEnum.ROADMAP)
-                .overviewMapControl(false)
+        mapOptions.center(new LatLong(33.776262, -84.396962)) // GaTech campus coords
+                .mapType(MapTypeIdEnum.ROADMAP) // not "satellite" view
+                .overviewMapControl(true)
                 .panControl(false)
                 .rotateControl(false)
                 .scaleControl(false)
                 .streetViewControl(false)
-                .zoomControl(false)
-                .zoom(2);
+                .zoomControl(true)
+                .zoom(14);
 
         map = mapView.createMap(mapOptions);
+
+        try {
+            List<WaterSourceReport> sourceReports = App.sourceReportDatabase.queryAllEntries();
+            for (WaterSourceReport report : sourceReports) {
+                MarkerOptions markerOptions = new MarkerOptions();
+                markerOptions.position(new LatLong(report.getLatitude(), report.getLongitude()));
+                map.addMarker(new Marker(markerOptions));
+            }
+        } catch (IOException e) {
+            App.err.error("Could not load source reports");
+        }
+
     }
 
     /**

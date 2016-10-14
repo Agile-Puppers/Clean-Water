@@ -42,16 +42,13 @@ public class ListSourceReportsScreen extends Controller {
         TableColumn<WaterSourceReport, String> nameColumn = new TableColumn<>("Author Name");
         nameColumn.setCellValueFactory(cell -> new ReadOnlyObjectWrapper(cell.getValue().getAuthorDisplayName()));
 
-        TableColumn<WaterSourceReport, String> locationColumn = new TableColumn<>("Location");
-        locationColumn.setCellValueFactory(cell -> new ReadOnlyObjectWrapper(cell.getValue().getReportedLocation()));
-
         TableColumn<WaterSourceReport, String> typeColumn = new TableColumn<>("Water Type");
         typeColumn.setCellValueFactory(cell -> new ReadOnlyObjectWrapper(cell.getValue().getWaterType().toString()));
 
         TableColumn<WaterSourceReport, String> conditionColumn = new TableColumn<>("Water Condition");
         conditionColumn.setCellValueFactory(cell -> new ReadOnlyObjectWrapper(cell.getValue().getWaterCondition().toString()));
 
-        tableView.getColumns().addAll(idColumn, nameColumn, locationColumn, typeColumn, conditionColumn);
+        tableView.getColumns().addAll(idColumn, nameColumn, typeColumn, conditionColumn);
     }
 
     @FXML

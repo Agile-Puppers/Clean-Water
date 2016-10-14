@@ -4,16 +4,17 @@ import agilepuppers.cleanwater.App;
 import agilepuppers.cleanwater.model.report.WaterCondition;
 import agilepuppers.cleanwater.model.report.WaterSourceReport;
 import agilepuppers.cleanwater.model.report.WaterType;
+import com.lynden.gmapsfx.GoogleMapView;
+import com.lynden.gmapsfx.MapComponentInitializedListener;
+import com.lynden.gmapsfx.javascript.JavascriptObject;
+import com.lynden.gmapsfx.javascript.object.*;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
+import netscape.javascript.JSObject;
 
 import java.io.IOException;
 
-public class CreateSourceReportScreen extends Controller implements FormScreen {
-
-    @FXML private TextField locationField;
+public class CreateSourceReportScreen extends Controller implements FormScreen, MapComponentInitializedListener {
 
     @FXML private RadioButton waterTypeBottled;
     @FXML private RadioButton waterTypeWell;
@@ -27,6 +28,44 @@ public class CreateSourceReportScreen extends Controller implements FormScreen {
     @FXML private RadioButton waterConditionTreatableClear;
     @FXML private RadioButton waterConditionTreatableMuddy;
 
+    @FXML private GoogleMapView mapView;
+
+    private GoogleMap map;
+
+    private Marker draggableMarker;
+
+    @FXML
+    private void initialize() {
+        mapView.addMapInializedListener(this);
+    }
+
+    @Override
+    public void mapInitialized() {
+
+        MapOptions mapOptions = new MapOptions();
+
+        mapOptions.center(new LatLong(33.776262, -84.396962)) // GaTech campus coords
+                .mapType(MapTypeIdEnum.ROADMAP) // not "satellite" view
+                .overviewMapControl(true)
+                .panControl(false)
+                .rotateControl(false)
+                .scaleControl(false)
+                .streetViewControl(false)
+                .zoomControl(true)
+                .zoom(14);
+
+        map = mapView.createMap(mapOptions);
+
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(new LatLong(33.776262, -84.396962));
+        markerOptions.getJSObject().setMember("draggable", true);
+
+        draggableMarker = new Marker(markerOptions);
+
+        map.addMarker(draggableMarker);
+
+    }
+
     @FXML
     private void cancelReport() {
         App.current.setScene("HomeScreen");
@@ -34,16 +73,6 @@ public class CreateSourceReportScreen extends Controller implements FormScreen {
 
     @FXML
     private void saveReport() {
-        String location = locationField.getText();
-
-        if (location == null || location.equals("")) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle(null);
-            alert.setHeaderText("Invalid Location");
-            alert.setContentText("Please enter a location.");
-            alert.showAndWait();
-            return;
-        }
 
         WaterType waterType;
         if (waterTypeBottled.isSelected()) waterType = WaterType.BOTTLED;
@@ -54,12 +83,19 @@ public class CreateSourceReportScreen extends Controller implements FormScreen {
         else waterType = WaterType.OTHER;
 
         WaterCondition waterCondition;
-        if (waterConditionPotable.isSelected()) waterCondition = WaterCondition.POTABLE;
-        else if (waterConditionWaste.isSelected()) waterCondition = WaterCondition.WASTE;
-        else if (waterConditionTreatableClear.isSelected()) waterCondition = WaterCondition.TREATABLE_CLEAR;
+        if (waterConditionPotable.isSelected())
+            waterCondition = WaterCondition.POTABLE;
+        else if (waterConditionWaste.isSelected())
+            waterCondition = WaterCondition.WASTE;
+        else if (waterConditionTreatableClear.isSelected())
+            waterCondition = WaterCondition.TREATABLE_CLEAR;
         else waterCondition = WaterCondition.TREATABLE_MUDDY;
 
-        WaterSourceReport report = new WaterSourceReport(App.current.getUser(), location, waterType, waterCondition);
+
+        double lat = Double.valueOf(map.getJSObject().eval(draggableMarker.getVariableName() + ".getPosition().lat()").toString());
+        double lon = Double.valueOf(map.getJSObject().eval(draggableMarker.getVariableName() + ".getPosition().lng()").toString());
+
+        WaterSourceReport report = new WaterSourceReport(App.current.getUser(), lat, lon, waterType, waterCondition);
 
         try {
             App.sourceReportDatabase.addEntry(report);
@@ -74,4 +110,5 @@ public class CreateSourceReportScreen extends Controller implements FormScreen {
     public void displayMessage(String message) {
 
     }
+
 }
