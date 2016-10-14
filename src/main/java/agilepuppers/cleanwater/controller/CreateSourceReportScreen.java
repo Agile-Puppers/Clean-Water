@@ -95,7 +95,7 @@ public class CreateSourceReportScreen extends Controller implements FormScreen, 
         int newID = -1;
         // i know i know, this is terrible
         try {
-            int newID = App.sourceReportDatabase.queryAllEntries().size();
+            newID = App.sourceReportDatabase.queryAllEntries().size();
         } catch (IOException e) {
             App.err.error("Could not query database");
             App.current.setScene("HomeScreen");
