@@ -1,5 +1,5 @@
 
-#gridpane {
+#rootPane {
     -fx-background-color: #d0e0ff;
     -fx-background-image: url("../images/world.png");
     -fx-background-repeat: stretch;

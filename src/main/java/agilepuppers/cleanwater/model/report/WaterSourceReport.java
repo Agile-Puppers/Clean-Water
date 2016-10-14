@@ -16,30 +16,33 @@ public class WaterSourceReport implements HashMapConvertible {
     private String authorName;
     private String authorUsername;
 
-    private String location;
+    private double lat;
+    private double lon;
+
     private WaterType waterType;
     private WaterCondition waterCondition;
 
     /**
      * Create a new Water Source Report
      *
-     * @param author The UserAccount that created the report. Must not be null.
-     * @param location The reported location of the water.
-     * @param waterType The type of the water.
+     * @param author         The UserAccount that created the report. Must not be null.
+     * @param location       The reported location of the water.
+     * @param waterType      The type of the water.
      * @param waterCondition The condition of the water.
      */
-    public WaterSourceReport(UserAccount author, String location, WaterType waterType, WaterCondition waterCondition) {
+    public WaterSourceReport(int ID, UserAccount author, double lat, double lon, WaterType waterType, WaterCondition waterCondition) {
         this.timeCreated = new Date();
-        this.reportId = (int) (Math.random() * 1000000000);
+        this.reportId = ID;
 
         this.authorUsername = author.getUsername();
         this.authorName = author.getProfile().getName();
 
-        this.location = location;
+        this.lat = lat;
+        this.lon = lon;
+
         this.waterType = waterType;
         this.waterCondition = waterCondition;
     }
-
 
     //getters
 
@@ -59,8 +62,12 @@ public class WaterSourceReport implements HashMapConvertible {
         return authorUsername;
     }
 
-    public String getReportedLocation() {
-        return location;
+    public double getLatitude() {
+        return lat;
+    }
+
+    public double getLongitude() {
+        return lon;
     }
 
     public WaterType getWaterType() {
@@ -79,31 +86,35 @@ public class WaterSourceReport implements HashMapConvertible {
         }
     }
 
-
     //serialization support
 
     public static final String TIME_CREATED_KEY = "time";
     public static final String ID_KEY = "id";
     public static final String AUTHOR_NAME_KEY = "author";
     public static final String AUTHOR_USERNAME_KEY = "username";
-    public static final String LOCATION_KEY = "location";
+    public static final String LAT_KEY = "lat";
+    public static final String LON_KEY = "lon";
     public static final String TYPE_KEY = "type";
     public static final String CONDITION_KEY = "condition";
 
     /**
      * Creates a HashMap that represents this report
+     *
      * @return a HashMap representation of this object
      */
-    @Override public HashMap<String, String> toHashMap() {
+    @Override
+    public HashMap<String, String> toHashMap() {
         HashMap<String, String> hashMap = new HashMap<>();
 
         hashMap.put(TIME_CREATED_KEY, this.timeCreated.toString());
-        hashMap.put(ID_KEY, this.reportId + "");
+        hashMap.put(ID_KEY, String.valueOf(this.reportId));
 
         hashMap.put(AUTHOR_NAME_KEY, this.authorName);
         hashMap.put(AUTHOR_USERNAME_KEY, this.authorUsername);
 
-        hashMap.put(LOCATION_KEY, this.location);
+        hashMap.put(LAT_KEY, String.valueOf(this.lat));
+        hashMap.put(LON_KEY, String.valueOf(this.lon));
+
         hashMap.put(TYPE_KEY, this.waterType.toString());
         hashMap.put(CONDITION_KEY, this.waterCondition.toString());
 
@@ -132,10 +143,19 @@ public class WaterSourceReport implements HashMapConvertible {
 
         this.authorName = hashMap.get(AUTHOR_NAME_KEY);
         this.authorUsername = hashMap.get(AUTHOR_USERNAME_KEY);
-        this.location = hashMap.get(LOCATION_KEY);
+
+        this.lat = Double.valueOf(hashMap.get(LAT_KEY));
+        this.lon = Double.valueOf(hashMap.get(LON_KEY));
 
         this.waterType = WaterType.valueOf(hashMap.get(TYPE_KEY));
         this.waterCondition = WaterCondition.valueOf(hashMap.get(CONDITION_KEY));
     }
+
+    public static Factory<WaterSourceReport> factory = new Factory<WaterSourceReport>() {
+        @Override
+        public WaterSourceReport fromHashMap(HashMap<String, String> hashMap) {
+            return new WaterSourceReport(hashMap);
+        }
+    };
 
 }

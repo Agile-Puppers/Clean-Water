@@ -22,9 +22,10 @@ public class UserProfile {
 
     /**
      * Constructor for a new User Profile
-     * @param title the users title
-     * @param name the users name
-     * @param email the users email address
+     *
+     * @param title   the users title
+     * @param name    the users name
+     * @param email   the users email address
      * @param address the users home address
      */
     public UserProfile(String title, String name, String email, String address) {
@@ -36,6 +37,7 @@ public class UserProfile {
 
     /**
      * Converts a user profile hash map into a new user profile
+     *
      * @param hashMap the hash map of the user profile instance variables
      */
     public UserProfile(HashMap<String, String> hashMap) {
@@ -47,48 +49,56 @@ public class UserProfile {
 
     /**
      * Getter for the users title
+     *
      * @return the users title
      */
     public String getTitle() { return TITLE; }
 
     /**
      * Getter for the users name
+     *
      * @return the users name
      */
     public String getName() { return NAME; }
 
     /**
      * Getter for the users email address
+     *
      * @return the users email address
      */
     public String getEmail() { return EMAIL; }
 
     /**
      * Getter for the users home address
+     *
      * @return the users home address
      */
     public String getAddress() { return ADDRESS; }
 
     /**
      * Setter for the users title
+     *
      * @param title the users title
      */
     public void setTitle(String title) { this.TITLE = title; }
 
     /**
      * Setter for the users name
+     *
      * @param name the users name
      */
     public void setName(String name) { this.NAME = name; }
 
     /**
      * Setter for the users email address
+     *
      * @param email the users email address
      */
     public void setEmail(String email) { this.EMAIL = email; }
 
     /**
      * Setter for the users home address
+     *
      * @param address the users home address
      */
     public void setAddress(String address) { this.ADDRESS = address; }

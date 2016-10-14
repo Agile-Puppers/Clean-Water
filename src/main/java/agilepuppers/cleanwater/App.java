@@ -40,8 +40,8 @@ public class App extends Application {
 
         // anything you want to load/do before starting the application, put under here
 
-        accountDatabase = new TextDatabase<>("./db/accounts", UserAccount.USERNAME_KEY, "|", "=", UserAccount.class);
-        sourceReportDatabase = new TextDatabase<>("./db/waterSourceReports", WaterSourceReport.ID_KEY, "|", "=", WaterSourceReport.class);
+        accountDatabase = new TextDatabase<>("./db/accounts", UserAccount.USERNAME_KEY, UserAccount.factory);
+        sourceReportDatabase = new TextDatabase<>("./db/waterSourceReports", WaterSourceReport.ID_KEY, WaterSourceReport.factory);
     }
 
     @Override
@@ -52,7 +52,7 @@ public class App extends Application {
 
         // load first scene
         // not using setScene method because root cannot be null
-        primaryStage.setScene(new Scene(getScene("LoginScreen"), 900, 550));
+        primaryStage.setScene(new Scene(getScene("TitleScreen"), 900, 550));
 
         this.primaryStage.setTitle(App.NAME);
 

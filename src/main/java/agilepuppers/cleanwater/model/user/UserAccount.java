@@ -21,13 +21,14 @@ public class UserAccount implements HashMapConvertible {
     private final AuthorizationLevel AUTHORIZATION;
 
     private UserProfile profile;
-    
+
     /**
      * Constructor for a new User Account
-     * @param username the account's username
-     * @param password the account's password
+     *
+     * @param username      the account's username
+     * @param password      the account's password
      * @param authorization the account's authorization level
-     * @param profile the account's profile
+     * @param profile       the account's profile
      */
     public UserAccount(String username, String password, AuthorizationLevel authorization, UserProfile profile) {
         this.USERNAME = username;
@@ -38,6 +39,7 @@ public class UserAccount implements HashMapConvertible {
 
     /**
      * Getter for the account's username
+     *
      * @return the account's username
      */
     public String getUsername() {
@@ -46,6 +48,7 @@ public class UserAccount implements HashMapConvertible {
 
     /**
      * Getter for the account's password
+     *
      * @return the account's password
      */
     public String getPassword() {
@@ -54,34 +57,20 @@ public class UserAccount implements HashMapConvertible {
 
     /**
      * Getter for the account's authorization level
+     *
      * @return the account's authorization level
      */
     public AuthorizationLevel getAuthorization() {
         return AUTHORIZATION;
     }
-    
+
     /**
      * Getter for the account's profile
+     *
      * @return the account's profile
      */
     public UserProfile getProfile() {
         return profile;
-    }
-
-
-    /**
-     * Builds a UserAccount from the given HashMap
-     *
-     * @param hashmap the HashMap to build a UserAccount from
-     */
-    public UserAccount(HashMap<String, String> hashmap) {
-        this.USERNAME = hashmap.get(USERNAME_KEY);
-        this.PASSWORD = hashmap.get(PASSWORD_KEY);
-
-        String authString = hashmap.get(AUTHORIZATION_KEY);
-        this.AUTHORIZATION = AuthorizationLevel.valueOf(authString);
-
-        this.profile = new UserProfile(hashmap);
     }
 
     @Override
@@ -98,5 +87,27 @@ public class UserAccount implements HashMapConvertible {
 
         return map;
     }
+
+    /**
+     * Builds a UserAccount from the given HashMap
+     *
+     * @param hashmap the HashMap to build a UserAccount from
+     */
+    public UserAccount(HashMap<String, String> hashmap) {
+        this.USERNAME = hashmap.get(USERNAME_KEY);
+        this.PASSWORD = hashmap.get(PASSWORD_KEY);
+
+        String authString = hashmap.get(AUTHORIZATION_KEY);
+        this.AUTHORIZATION = AuthorizationLevel.valueOf(authString);
+
+        this.profile = new UserProfile(hashmap);
+    }
+
+    public static Factory<UserAccount> factory = new Factory<UserAccount>() {
+        @Override
+        public UserAccount fromHashMap(HashMap<String, String> hashMap) {
+            return new UserAccount(hashMap);
+        }
+    };
 
 }

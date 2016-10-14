@@ -25,11 +25,11 @@ public class RegisterScreen extends Controller implements FormScreen {
     @FXML private Text formFeedback;
     
     /**
-     * Returns User to login screen upon cancelling the registration process
+     * Returns user to title screen
      */
     @FXML
     private void handleCancel() {
-        App.current.setScene("LoginScreen");
+        App.current.setScene("TitleScreen");
     }
     /**
      * Registers new User into the system
