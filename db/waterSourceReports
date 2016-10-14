@@ -1,2 +1,2 @@
-condition=POTABLE|lon=-84.396962|time=Fri Oct 07 12:43:05 EDT 2016|id=225132238|type=BOTTLED|lat=33.776262|username=cal
-condition=POTABLE|author=User McUserface|lon=-84.39647920237735|time=Fri Oct 14 01:34:00 EDT 2016|id=25521159|type=BOTTLED|lat=33.78170178782148|username=user
+condition=POTABLE|lon=-84.396962|time=Fri Oct 07 12:43:05 EDT 2016|id=0|type=BOTTLED|lat=33.776262|username=cal
+condition=POTABLE|author=User McUserface|lon=-84.39647920237735|time=Fri Oct 14 01:34:00 EDT 2016|id=1|type=BOTTLED|lat=33.78170178782148|username=user
