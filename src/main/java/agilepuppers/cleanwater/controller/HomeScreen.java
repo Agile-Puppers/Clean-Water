@@ -14,7 +14,7 @@ import javafx.scene.control.Label;
 import java.io.IOException;
 import java.util.List;
 
-public class HomeScreen implements MapComponentInitializedListener {
+public class HomeScreen extends Controller implements MapComponentInitializedListener {
 
     @FXML private Label usernameLabel;
 
@@ -57,7 +57,7 @@ public class HomeScreen implements MapComponentInitializedListener {
     @FXML
     private void handleLogout() {
         App.current.setUser(null);
-        App.current.setScene("LoginScreen");
+        App.current.setScene("TitleScreen");
     }
 
     /**
@@ -73,13 +73,13 @@ public class HomeScreen implements MapComponentInitializedListener {
      */
     @FXML
     private void createSourceReport() {
-        App.current.setScene("EditSourceReportScreen");
+        App.current.setScene("CreateSourceReportScreen");
     }
 
     /**
      * Navgates to the screen to view all Source Reports
      */
     @FXML
-    private void viewReports() { App.current.setScene("ViewSourceReportsScreen"); }
+    private void viewReports() { App.current.setScene("ListSourceReportsScreen"); }
 
 }

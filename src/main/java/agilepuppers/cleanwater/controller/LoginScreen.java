@@ -12,22 +12,9 @@ import java.util.HashMap;
 
 public class LoginScreen extends Controller implements FormScreen {
 
-    @FXML private Text title;
     @FXML private TextField usernameField;
     @FXML private TextField passwordField;
     @FXML private Text formFeedback;
-
-    /**
-     * Initializes login screen
-     */
-    @FXML
-    private void initialize() {
-
-        // this will override any text if previously set, so don't.
-        // change it here instead
-        title.setText(App.NAME);
-
-    }
 
     /**
      * Logs a User into the system
@@ -69,11 +56,11 @@ public class LoginScreen extends Controller implements FormScreen {
     }
 
     /**
-     * Sets the scene to the registration page
+     * Takes user back to title screen
      */
     @FXML
-    private void handleRegister() {
-        App.current.setScene("RegisterScreen");
+    private void handleCancel() {
+        App.current.setScene("TitleScreen");
     }
 
     @Override

@@ -52,7 +52,7 @@ public class App extends Application {
 
         // load first scene
         // not using setScene method because root cannot be null
-        primaryStage.setScene(new Scene(getScene("LoginScreen"), 900, 550));
+        primaryStage.setScene(new Scene(getScene("TitleScreen"), 900, 550));
 
         this.primaryStage.setTitle(App.NAME);
 

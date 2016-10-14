@@ -11,7 +11,7 @@ import javafx.scene.control.TextField;
 
 import java.io.IOException;
 
-public class EditSourceReportScreen extends Controller implements FormScreen {
+public class CreateSourceReportScreen extends Controller implements FormScreen {
 
     @FXML private TextField locationField;
 

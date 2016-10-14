@@ -1,8 +1,5 @@
 package agilepuppers.cleanwater.model.user;
 
-/**
- * Created by cal on 9/27/16.
- */
 public enum AuthorizationLevel {
 
     USER(1),
@@ -10,10 +7,10 @@ public enum AuthorizationLevel {
     MANAGER(3),
     ADMIN(4);
 
-    private int permissionLevel;
+    private int rank;
 
     private AuthorizationLevel(int permissionLevel) {
-        this.permissionLevel = permissionLevel;
+        this.rank = permissionLevel;
     }
 
     /**
@@ -22,7 +19,7 @@ public enum AuthorizationLevel {
      * @return true if this AuthorizationLevel is greater than or equal to the given level
      */
     public boolean isAtLeast(AuthorizationLevel level) {
-        return level.permissionLevel <= this.permissionLevel;
+        return level.rank <= this.rank;
     }
 
 }

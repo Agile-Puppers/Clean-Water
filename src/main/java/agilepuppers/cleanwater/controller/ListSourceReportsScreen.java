@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ViewSourceReportsScreen extends Controller {
+public class ListSourceReportsScreen extends Controller {
 
     @FXML private TableView tableView;
 
