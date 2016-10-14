@@ -6,11 +6,9 @@ import agilepuppers.cleanwater.model.report.WaterSourceReport;
 import agilepuppers.cleanwater.model.report.WaterType;
 import com.lynden.gmapsfx.GoogleMapView;
 import com.lynden.gmapsfx.MapComponentInitializedListener;
-import com.lynden.gmapsfx.javascript.JavascriptObject;
 import com.lynden.gmapsfx.javascript.object.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.RadioButton;
-import netscape.javascript.JSObject;
 
 import java.io.IOException;
 
@@ -91,11 +89,19 @@ public class CreateSourceReportScreen extends Controller implements FormScreen, 
             waterCondition = WaterCondition.TREATABLE_CLEAR;
         else waterCondition = WaterCondition.TREATABLE_MUDDY;
 
-
         double lat = Double.valueOf(map.getJSObject().eval(draggableMarker.getVariableName() + ".getPosition().lat()").toString());
         double lon = Double.valueOf(map.getJSObject().eval(draggableMarker.getVariableName() + ".getPosition().lng()").toString());
 
-        WaterSourceReport report = new WaterSourceReport(App.current.getUser(), lat, lon, waterType, waterCondition);
+        int newID = -1;
+        // i know i know, this is terrible
+        try {
+            int newID = App.sourceReportDatabase.queryAllEntries().size();
+        } catch (IOException e) {
+            App.err.error("Could not query database");
+            App.current.setScene("HomeScreen");
+        }
+
+        WaterSourceReport report = new WaterSourceReport(newID, App.current.getUser(), lat, lon, waterType, waterCondition);
 
         try {
             App.sourceReportDatabase.addEntry(report);

@@ -30,9 +30,9 @@ public class WaterSourceReport implements HashMapConvertible {
      * @param waterType      The type of the water.
      * @param waterCondition The condition of the water.
      */
-    public WaterSourceReport(UserAccount author, double lat, double lon, WaterType waterType, WaterCondition waterCondition) {
+    public WaterSourceReport(int ID, UserAccount author, double lat, double lon, WaterType waterType, WaterCondition waterCondition) {
         this.timeCreated = new Date();
-        this.reportId = (int) (Math.random() * 1000000000);
+        this.reportId = ID;
 
         this.authorUsername = author.getUsername();
         this.authorName = author.getProfile().getName();
