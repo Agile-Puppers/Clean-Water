@@ -1,10 +1,14 @@
 package agilepuppers.cleanwater;
 
+import agilepuppers.cleanwater.controller.Controller;
 import agilepuppers.cleanwater.model.ErrorHandler;
 import agilepuppers.cleanwater.model.Logger;
 import agilepuppers.cleanwater.model.TextDatabase;
 import agilepuppers.cleanwater.model.report.WaterSourceReport;
 import agilepuppers.cleanwater.model.user.UserAccount;
+import com.lynden.gmapsfx.javascript.object.LatLong;
+import com.lynden.gmapsfx.javascript.object.MapOptions;
+import com.lynden.gmapsfx.javascript.object.MapTypeIdEnum;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -52,7 +56,8 @@ public class App extends Application {
 
         // load first scene
         // not using setScene method because root cannot be null
-        primaryStage.setScene(new Scene(getScene("TitleScreen"), 900, 550));
+        //primaryStage.setScene(new Scene(getScene("TitleScreen"), 900, 550));
+        this.setScene("TitleScreen");
 
         this.primaryStage.setTitle(App.NAME);
 
@@ -61,35 +66,55 @@ public class App extends Application {
     }
 
     /**
-     * Sets the current scene in the stage specified to the scene specified.
-     * Instead of setting the scene of the root, however, this method replaces
-     * the "root" of the scene so the size of the window does not jarringly
-     * change.
+     * Sets the current scene in the main window of the application (primaryStage).
      *
      * @param viewName The name of the view to be loaded from the fxml file of the same name
-     * @param stage    The stage to set the scene of
      */
-    public void setScene(String viewName, Stage stage) {
-        stage.getScene().setRoot(getScene(viewName));
+    public void setScene(String viewName) {
+        this.setScene(viewName, this.primaryStage, null);
     }
 
     /**
      * Sets the current scene in the main window of the application (primaryStage).
      *
      * @param viewName The name of the view to be loaded from the fxml file of the same name
+     * @param userData An object to pass to the new scene's controller
      */
-    public void setScene(String viewName) {
-        setScene(viewName, this.primaryStage);
+    public void setScene(String viewName, Object userData) {
+        this.setScene(viewName, this.primaryStage, userData);
     }
 
-    private Parent getScene(String viewName) {
+    /**
+     * Sets the current scene in the main window of the application (primaryStage).
+     *
+     * @param viewName The name of the view to be loaded from the fxml file of the same name
+     * @param stage The stage (window) to operate on
+     * @param userData An object to pass to the new scene's controller
+     */
+    public void setScene(String viewName, Stage stage, Object userData) {
         URL url = App.class.getResource("/fxml/scenes/" + viewName.trim() + ".fxml");
         try {
-            return FXMLLoader.load(url);
+            //attempt to load the .fxml
+            FXMLLoader loader = new FXMLLoader(url);
+            Parent parent = loader.load();
+
+            //pass user data
+            Object controller = loader.getController();
+            if (userData != null && controller instanceof Controller) {
+                ((Controller) controller).receiveUserData(userData);
+            }
+
+            //present controller
+            if (stage.getScene() == null) {
+                stage.setScene(new Scene(parent, 900, 550));
+            } else {
+                stage.getScene().setRoot(parent);
+            }
+
+
         } catch (IOException e) {
             App.err.fatalError("Could not access scene");
         }
-        return null;
     }
 
     public UserAccount getUser() {
@@ -98,6 +123,22 @@ public class App extends Application {
 
     public void setUser(UserAccount user) {
         this.user = user;
+    }
+
+    public MapOptions commonMapOptions() {
+        MapOptions mapOptions = new MapOptions();
+
+        mapOptions.center(new LatLong(33.776262, -84.396962)) // GaTech campus coords
+                .mapType(MapTypeIdEnum.ROADMAP) // not "satellite" view
+                .overviewMapControl(true)
+                .panControl(false)
+                .rotateControl(false)
+                .scaleControl(false)
+                .streetViewControl(false)
+                .zoomControl(true)
+                .zoom(14);
+
+        return mapOptions;
     }
 
 }

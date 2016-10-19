@@ -4,9 +4,12 @@ import agilepuppers.cleanwater.App;
 import agilepuppers.cleanwater.model.report.WaterSourceReport;
 import com.lynden.gmapsfx.GoogleMapView;
 import com.lynden.gmapsfx.MapComponentInitializedListener;
+import com.lynden.gmapsfx.javascript.event.UIEventHandler;
+import com.lynden.gmapsfx.javascript.event.UIEventType;
 import com.lynden.gmapsfx.javascript.object.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import netscape.javascript.JSObject;
 
 import java.io.IOException;
 import java.util.List;
@@ -29,27 +32,24 @@ public class HomeScreen extends Controller implements MapComponentInitializedLis
 
     @Override
     public void mapInitialized() {
-
-        MapOptions mapOptions = new MapOptions();
-
-        mapOptions.center(new LatLong(33.776262, -84.396962)) // GaTech campus coords
-                .mapType(MapTypeIdEnum.ROADMAP) // not "satellite" view
-                .overviewMapControl(true)
-                .panControl(false)
-                .rotateControl(false)
-                .scaleControl(false)
-                .streetViewControl(false)
-                .zoomControl(true)
-                .zoom(14);
-
-        map = mapView.createMap(mapOptions);
+        map = mapView.createMap(App.current.commonMapOptions());
 
         try {
             List<WaterSourceReport> sourceReports = App.sourceReportDatabase.queryAllEntries();
             for (WaterSourceReport report : sourceReports) {
                 MarkerOptions markerOptions = new MarkerOptions();
                 markerOptions.position(new LatLong(report.getLatitude(), report.getLongitude()));
-                map.addMarker(new Marker(markerOptions));
+
+                Marker marker = new Marker(markerOptions);
+                map.addMarker(marker);
+
+
+                map.addUIEventHandler(marker, UIEventType.click, new UIEventHandler() {
+                    @Override
+                    public void handle(JSObject obj) {
+                        App.current.setScene("ViewSourceReportScreen", report);
+                    }
+                });
             }
         } catch (IOException e) {
             App.err.error("Could not load source reports");

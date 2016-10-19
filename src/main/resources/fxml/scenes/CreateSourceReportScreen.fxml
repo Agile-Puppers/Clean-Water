@@ -33,10 +33,10 @@
              </Label>
              <Label text="Water Type" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                  <font>
-                     <Font name="System Bold" size="14.0" />
+                     <Font name="System Bold" size="18.0" />
                  </font>
                <GridPane.margin>
-                  <Insets />
+                  <Insets bottom="10.0" top="20.0" />
                </GridPane.margin>
              </Label>
              <GridPane hgap="20.0" vgap="10.0" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
@@ -45,11 +45,20 @@
                          <ToggleGroup fx:id="waterType" />
                      </toggleGroup>
                  </RadioButton>
-                 <RadioButton fx:id="waterTypeWell" mnemonicParsing="false" text="Well" toggleGroup="$waterType" GridPane.columnIndex="1" />
+                 <RadioButton fx:id="waterTypeWell" mnemonicParsing="false" text="Well" toggleGroup="$waterType" GridPane.columnIndex="1">
+                  <GridPane.margin>
+                     <Insets left="20.0" />
+                  </GridPane.margin></RadioButton>
                  <RadioButton fx:id="waterTypeStream" mnemonicParsing="false" text="Stream" toggleGroup="$waterType" GridPane.rowIndex="1" />
-                 <RadioButton fx:id="waterTypeLake" mnemonicParsing="false" text="Lake" toggleGroup="$waterType" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                 <RadioButton fx:id="waterTypeLake" mnemonicParsing="false" text="Lake" toggleGroup="$waterType" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <GridPane.margin>
+                     <Insets left="20.0" />
+                  </GridPane.margin></RadioButton>
                  <RadioButton fx:id="waterTypeSpring" mnemonicParsing="false" text="Spring" toggleGroup="$waterType" GridPane.rowIndex="2" />
-                 <RadioButton fx:id="waterTypeOther" mnemonicParsing="false" text="Other" toggleGroup="$waterType" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                 <RadioButton fx:id="waterTypeOther" mnemonicParsing="false" text="Other" toggleGroup="$waterType" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <GridPane.margin>
+                     <Insets left="20.0" />
+                  </GridPane.margin></RadioButton>
                <columnConstraints>
                   <ColumnConstraints />
                   <ColumnConstraints />
@@ -65,10 +74,10 @@
              </GridPane>
              <Label text="Water Condition" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER">
                  <font>
-                     <Font name="System Bold" size="14.0" />
+                     <Font name="System Bold" size="18.0" />
                  </font>
                <GridPane.margin>
-                  <Insets />
+                  <Insets bottom="10.0" top="30.0" />
                </GridPane.margin>
              </Label>
              <GridPane hgap="10.0" prefWidth="200.0" vgap="10.0" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="CENTER">

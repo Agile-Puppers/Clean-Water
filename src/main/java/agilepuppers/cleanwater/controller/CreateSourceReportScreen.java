@@ -40,24 +40,11 @@ public class CreateSourceReportScreen extends Controller implements FormScreen, 
     @Override
     public void mapInitialized() {
 
-        MapOptions mapOptions = new MapOptions();
-
-        mapOptions.center(new LatLong(33.776262, -84.396962)) // GaTech campus coords
-                .mapType(MapTypeIdEnum.ROADMAP) // not "satellite" view
-                .overviewMapControl(true)
-                .panControl(false)
-                .rotateControl(false)
-                .scaleControl(false)
-                .streetViewControl(false)
-                .zoomControl(true)
-                .zoom(14);
-
-        map = mapView.createMap(mapOptions);
+        map = mapView.createMap(App.current.commonMapOptions());
 
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(new LatLong(33.776262, -84.396962));
         markerOptions.getJSObject().setMember("draggable", true);
-
         draggableMarker = new Marker(markerOptions);
 
         map.addMarker(draggableMarker);
