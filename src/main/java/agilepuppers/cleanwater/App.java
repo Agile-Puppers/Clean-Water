@@ -4,6 +4,7 @@ import agilepuppers.cleanwater.controller.Controller;
 import agilepuppers.cleanwater.model.ErrorHandler;
 import agilepuppers.cleanwater.model.Logger;
 import agilepuppers.cleanwater.model.TextDatabase;
+import agilepuppers.cleanwater.model.report.WaterPurityReport;
 import agilepuppers.cleanwater.model.report.WaterSourceReport;
 import agilepuppers.cleanwater.model.user.UserAccount;
 import com.lynden.gmapsfx.javascript.object.LatLong;
@@ -27,6 +28,7 @@ public class App extends Application {
     public static App current;
     public static TextDatabase<UserAccount> accountDatabase;
     public static TextDatabase<WaterSourceReport> sourceReportDatabase;
+    public static TextDatabase<WaterPurityReport> purityReportDatabase;
     public static Logger logger = new Logger();
     public static ErrorHandler err = new ErrorHandler();
 
@@ -44,8 +46,9 @@ public class App extends Application {
 
         // anything you want to load/do before starting the application, put under here
 
-        accountDatabase = new TextDatabase<>("./db/accounts", UserAccount.USERNAME_KEY, UserAccount.factory);
-        sourceReportDatabase = new TextDatabase<>("./db/waterSourceReports", WaterSourceReport.ID_KEY, WaterSourceReport.factory);
+        this.accountDatabase = new TextDatabase<>("./db/accounts", UserAccount.USERNAME_KEY, UserAccount.factory);
+        this.sourceReportDatabase = new TextDatabase<>("./db/waterSourceReports", WaterSourceReport.ID_KEY, WaterSourceReport.factory);
+        this.purityReportDatabase = new TextDatabase<>("./db/waterPurityReports", WaterPurityReport.ID_KEY, WaterPurityReport.factory);
     }
 
     @Override

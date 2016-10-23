@@ -4,3 +4,7 @@ condition=TREATABLE_MUDDY|author=User McUserface|lon=-84.41421396838382|time=Fri
 condition=POTABLE|lon=-84.39507372485355|time=Tue Oct 18 18:18:21 EDT 2016|id=3|type=OTHER|lat=33.76334780893687|username=cal
 condition=POTABLE|author=User McUserface|lon=-84.62724573718265|time=Tue Oct 18 19:54:27 EDT 2016|id=4|type=LAKE|lat=34.13514957826771|username=user
 condition=POTABLE|lon=-84.40091021166995|time=Tue Oct 18 19:56:39 EDT 2016|id=5|type=LAKE|lat=33.79045822867691|username=cal
+condition=POTABLE|lon=-84.38932306872562|time=Fri Oct 21 15:08:36 EDT 2016|id=6|type=BOTTLED|lat=33.77148183572819|username=cal
+condition=TREATABLE_CLEAR|author=Cal Stephens|lon=-84.5377243291016|time=Fri Oct 21 15:14:08 EDT 2016|id=7|type=LAKE|lat=33.67175111503211|username=cal
+condition=TREATABLE_CLEAR|author=Cal Stephens|lon=-81.94418374353029|time=Fri Oct 21 15:14:56 EDT 2016|id=8|type=BOTTLED|lat=29.345355165830036|username=cal
+condition=WASTE|author=Cal Stephens|lon=-166.66258700000003|time=Sun Oct 23 14:24:26 EDT 2016|id=9|type=LAKE|lat=25.539309410478957|username=cal

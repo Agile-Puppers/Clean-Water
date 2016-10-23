@@ -2,12 +2,14 @@ package agilepuppers.cleanwater.controller;
 
 import agilepuppers.cleanwater.App;
 import agilepuppers.cleanwater.model.report.WaterSourceReport;
+import agilepuppers.cleanwater.model.user.AuthorizationLevel;
 import com.lynden.gmapsfx.GoogleMapView;
 import com.lynden.gmapsfx.MapComponentInitializedListener;
 import com.lynden.gmapsfx.javascript.event.UIEventHandler;
 import com.lynden.gmapsfx.javascript.event.UIEventType;
 import com.lynden.gmapsfx.javascript.object.*;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import netscape.javascript.JSObject;
 
@@ -83,9 +85,42 @@ public class HomeScreen extends Controller implements MapComponentInitializedLis
     }
 
     /**
-     * Navgates to the screen to view all Source Reports
+     * Navigates to the screen to create a Water Purity Report if the user is a Worker or higher
      */
     @FXML
-    private void viewReports() { App.current.setScene("ListSourceReportsScreen"); }
+    private void createPurityReport() {
+        String message = "You must be a Worker or higher to submit a Purity Report.";
+
+        if (userHasAuthorizationLevel(AuthorizationLevel.WORKER, message)) {
+            App.current.setScene("CreatePurityReportScreen");
+        }
+    }
+
+    /**
+     * Navigates to the screen to view all Purity Reports is the user is a Manager or higher
+     */
+    @FXML
+    private void viewPurityReports() {
+        String message = "You must be a Manager or higher to view Purity Reports.";
+
+        if (userHasAuthorizationLevel(AuthorizationLevel.MANAGER, message)) {
+            App.current.setScene("ListPurityReportsScreen");
+        }
+    }
+
+    private boolean userHasAuthorizationLevel(AuthorizationLevel level, String ifError) {
+        AuthorizationLevel user = App.current.getUser().getAuthorization();
+
+        if (user.isAtLeast(level)) {
+            return true;
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Not Authorized");
+            alert.setContentText(ifError);
+            alert.showAndWait();
+
+            return false;
+        }
+    }
 
 }

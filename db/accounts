@@ -1,3 +1,6 @@
 password=pass|homeaddress=123 Main St., New York|authlevel=USER|emailaddress=user@example.com|fullname=User McUserface|title=Mr.|username=user
-password=pass|authlevel=ADMIN|username=cal
+password=pass|homeaddress=350666 Georgia Tech Station|authlevel=ADMIN|emailaddress=cal@calstephens.tech|fullname=Cal Stephens|title=Mr.|username=cal
 password=pass|authlevel=ADMIN|fullname=Gabor Siffel|title=Mr.|username=gabor
+password=pass|authlevel=WORKER|username=worker
+password=pass|authlevel=MANAGER|username=manager
+password=pass|authlevel=ADMIN|username=admin
