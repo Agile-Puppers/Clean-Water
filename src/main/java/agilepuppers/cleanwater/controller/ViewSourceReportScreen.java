@@ -101,7 +101,11 @@ public class ViewSourceReportScreen extends Controller implements MapComponentIn
 
     @FXML
     public void viewHistoricalReport() {
+        String message = "You must be a Manager or higher to view this Historical Report.";
 
+        if (App.current.userHasAuthorizationLevel(AuthorizationLevel.MANAGER, message)) {
+            App.current.setScene("HistoricalQualityScreen", this.report);
+        }
     }
 
 }

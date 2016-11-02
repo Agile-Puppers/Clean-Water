@@ -5,6 +5,7 @@ import agilepuppers.cleanwater.model.user.UserAccount;
 
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -113,7 +114,8 @@ public abstract class Report implements HashMapConvertible {
     public Report(HashMap<String, String> hashMap) {
         try {
             String timeCreatedString = hashMap.get(TIME_CREATED_KEY);
-            this.timeCreated = DateFormat.getDateInstance().parse(timeCreatedString);
+            String dateFormat = "EEE MMM d HH:mm:ss zzz yyyy";
+            this.timeCreated = new SimpleDateFormat(dateFormat).parse(timeCreatedString);
         } catch (ParseException e) {
             this.timeCreated = new Date();
         }

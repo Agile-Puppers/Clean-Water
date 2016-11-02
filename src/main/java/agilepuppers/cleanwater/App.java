@@ -118,6 +118,7 @@ public class App extends Application {
 
 
         } catch (IOException e) {
+            e.printStackTrace();
             App.err.fatalError("Could not access scene");
         }
     }
