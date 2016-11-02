@@ -91,7 +91,7 @@ public class HomeScreen extends Controller implements MapComponentInitializedLis
     private void createPurityReport() {
         String message = "You must be a Worker or higher to submit a Purity Report.";
 
-        if (userHasAuthorizationLevel(AuthorizationLevel.WORKER, message)) {
+        if (App.current.userHasAuthorizationLevel(AuthorizationLevel.WORKER, message)) {
             App.current.setScene("CreatePurityReportScreen");
         }
     }
@@ -103,23 +103,8 @@ public class HomeScreen extends Controller implements MapComponentInitializedLis
     private void viewPurityReports() {
         String message = "You must be a Manager or higher to view Purity Reports.";
 
-        if (userHasAuthorizationLevel(AuthorizationLevel.MANAGER, message)) {
+        if (App.current.userHasAuthorizationLevel(AuthorizationLevel.MANAGER, message)) {
             App.current.setScene("ListPurityReportsScreen");
-        }
-    }
-
-    private boolean userHasAuthorizationLevel(AuthorizationLevel level, String ifError) {
-        AuthorizationLevel user = App.current.getUser().getAuthorization();
-
-        if (user.isAtLeast(level)) {
-            return true;
-        } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Not Authorized");
-            alert.setContentText(ifError);
-            alert.showAndWait();
-
-            return false;
         }
     }
 

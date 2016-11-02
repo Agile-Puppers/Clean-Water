@@ -2,6 +2,7 @@ package agilepuppers.cleanwater.controller;
 
 import agilepuppers.cleanwater.App;
 import agilepuppers.cleanwater.model.report.WaterSourceReport;
+import agilepuppers.cleanwater.model.user.AuthorizationLevel;
 import com.lynden.gmapsfx.GoogleMapView;
 import com.lynden.gmapsfx.MapComponentInitializedListener;
 import com.lynden.gmapsfx.javascript.object.GoogleMap;
@@ -87,6 +88,20 @@ public class ViewSourceReportScreen extends Controller implements MapComponentIn
     @FXML
     public void backClicked() {
         App.current.setScene("HomeScreen");
+    }
+
+    @FXML
+    public void addPurityReport() {
+        String message = "You must be a Worker or higher to submit a Purity Report.";
+
+        if (App.current.userHasAuthorizationLevel(AuthorizationLevel.WORKER, message)) {
+            App.current.setScene("CreatePurityReportScreen", this.report);
+        }
+    }
+
+    @FXML
+    public void viewHistoricalReport() {
+
     }
 
 }

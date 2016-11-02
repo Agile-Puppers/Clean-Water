@@ -6,6 +6,7 @@ import agilepuppers.cleanwater.model.Logger;
 import agilepuppers.cleanwater.model.TextDatabase;
 import agilepuppers.cleanwater.model.report.WaterPurityReport;
 import agilepuppers.cleanwater.model.report.WaterSourceReport;
+import agilepuppers.cleanwater.model.user.AuthorizationLevel;
 import agilepuppers.cleanwater.model.user.UserAccount;
 import com.lynden.gmapsfx.javascript.object.LatLong;
 import com.lynden.gmapsfx.javascript.object.MapOptions;
@@ -14,6 +15,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -126,6 +128,21 @@ public class App extends Application {
 
     public void setUser(UserAccount user) {
         this.user = user;
+    }
+
+    public boolean userHasAuthorizationLevel(AuthorizationLevel level, String ifError) {
+        AuthorizationLevel user = this.getUser().getAuthorization();
+
+        if (user.isAtLeast(level)) {
+            return true;
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Not Authorized");
+            alert.setContentText(ifError);
+            alert.showAndWait();
+
+            return false;
+        }
     }
 
     public MapOptions commonMapOptions() {

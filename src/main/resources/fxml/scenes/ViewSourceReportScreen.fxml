@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<GridPane xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="agilepuppers.cleanwater.controller.ViewSourceReportScreen">
+<GridPane xmlns="http://javafx.com/javafx/8.0.76-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="agilepuppers.cleanwater.controller.ViewSourceReportScreen">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" percentWidth="50.0" />
     <ColumnConstraints hgrow="ALWAYS" percentWidth="50.0" />
@@ -50,7 +50,7 @@
                   <Insets top="20.0" />
                </GridPane.margin>
              </Label>
-             <Button onAction="#backClicked" prefWidth="100.0" text="Back" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="BOTTOM">
+             <Button onAction="#addPurityReport" prefWidth="200.0" text="Add Purity Report" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="BOTTOM">
                <GridPane.margin>
                   <Insets top="30.0" />
                </GridPane.margin>
@@ -63,6 +63,8 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
+            <Button mnemonicParsing="false" onAction="#backClicked" prefWidth="100.0" text="Back" GridPane.rowIndex="7" />
+            <Button mnemonicParsing="false" onAction="#viewHistoricalReport" prefWidth="200.0" text="View Historical Report" GridPane.rowIndex="6" />
          </children>
          <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
@@ -77,6 +79,8 @@
             <RowConstraints />
             <RowConstraints />
             <RowConstraints />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" />
          </rowConstraints>
       </GridPane>
    </children>

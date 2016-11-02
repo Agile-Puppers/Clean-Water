@@ -28,6 +28,9 @@ public class CreatePurityReportScreen extends Controller implements FormScreen, 
 
     private GoogleMap map;
     private Marker draggableMarker;
+    private WaterSourceReport associatedSourceReport;
+
+    //Setup
 
     @FXML
     private void initialize() {
@@ -40,16 +43,40 @@ public class CreatePurityReportScreen extends Controller implements FormScreen, 
         map = mapView.createMap(App.current.commonMapOptions());
 
         MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(new LatLong(33.776262, -84.396962));
-        markerOptions.getJSObject().setMember("draggable", true);
+        if (this.associatedSourceReport != null) {
+            LatLong pos = new LatLong(associatedSourceReport.getLatitude(), associatedSourceReport.getLongitude());
+            markerOptions.position(pos);
+        } else {
+            markerOptions.position(new LatLong(33.776262, -84.396962));
+            markerOptions.getJSObject().setMember("draggable", true);
+        }
+
         draggableMarker = new Marker(markerOptions);
 
         map.addMarker(draggableMarker);
     }
 
+    @Override
+    public void receiveUserData(Object data) {
+        if (data instanceof WaterSourceReport) {
+            this.associatedSourceReport = (WaterSourceReport)data;
+        }
+    }
+
+
+    //User Interaction
+
+    private void goBack() {
+        if (this.associatedSourceReport != null) {
+            App.current.setScene("ViewSourceReportScreen", this.associatedSourceReport);
+        } else {
+            App.current.setScene("HomeScreen");
+        }
+    }
+
     @FXML
     private void cancelReport() {
-        App.current.setScene("HomeScreen");
+        goBack();
     }
 
     @FXML
@@ -84,7 +111,7 @@ public class CreatePurityReportScreen extends Controller implements FormScreen, 
             newID = App.purityReportDatabase.queryAllEntries().size();
         } catch (IOException e) {
             App.err.error("Could not query database");
-            App.current.setScene("HomeScreen");
+            goBack();
         }
 
         UserAccount user = App.current.getUser();
@@ -96,7 +123,7 @@ public class CreatePurityReportScreen extends Controller implements FormScreen, 
             App.err.error("Could not save Water Source Report");
         }
 
-        App.current.setScene("HomeScreen");
+        goBack();
     }
 
     @Override
