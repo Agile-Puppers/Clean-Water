@@ -9,9 +9,9 @@ public enum WaterType {
     SPRING("Spring Water"),
     OTHER("Water");
 
-    private String friendlyString;
+    private final String friendlyString;
 
-    private WaterType(String friendly) {
+    WaterType(String friendly) {
         this.friendlyString = friendly;
     }
 

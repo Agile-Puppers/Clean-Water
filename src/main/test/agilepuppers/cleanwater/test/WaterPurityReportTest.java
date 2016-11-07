@@ -1,6 +1,5 @@
 package agilepuppers.cleanwater.test;
 
-import agilepuppers.cleanwater.model.report.SafetyRating;
 import agilepuppers.cleanwater.model.report.WaterPurityReport;
 import org.junit.Assert;
 import org.junit.Test;
@@ -13,7 +12,7 @@ import java.util.HashMap;
  */
 public class WaterPurityReportTest {
 
-    private double DOUBLE_COMPARISON_DELTA = 0.0000001;
+    private final double DOUBLE_COMPARISON_DELTA = 0.0000001;
 
     private HashMap<String, String> getValidHashMap() {
         HashMap<String, String> data = new HashMap<>();
@@ -29,7 +28,7 @@ public class WaterPurityReportTest {
 
     @Test(expected = NullPointerException.class)
     public void testConstructorWithNullHashMap() {
-        WaterPurityReport report = new WaterPurityReport(null);
+        new WaterPurityReport(null);
     }
 
     @Test

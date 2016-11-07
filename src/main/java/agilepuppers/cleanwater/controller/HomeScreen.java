@@ -5,13 +5,10 @@ import agilepuppers.cleanwater.model.report.WaterSourceReport;
 import agilepuppers.cleanwater.model.user.AuthorizationLevel;
 import com.lynden.gmapsfx.GoogleMapView;
 import com.lynden.gmapsfx.MapComponentInitializedListener;
-import com.lynden.gmapsfx.javascript.event.UIEventHandler;
 import com.lynden.gmapsfx.javascript.event.UIEventType;
 import com.lynden.gmapsfx.javascript.object.*;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
-import netscape.javascript.JSObject;
 
 import java.io.IOException;
 import java.util.List;
@@ -21,8 +18,6 @@ public class HomeScreen extends Controller implements MapComponentInitializedLis
     @FXML private Label usernameLabel;
 
     @FXML private GoogleMapView mapView;
-
-    private GoogleMap map;
 
     @FXML
     private void initialize() {
@@ -34,7 +29,7 @@ public class HomeScreen extends Controller implements MapComponentInitializedLis
 
     @Override
     public void mapInitialized() {
-        map = mapView.createMap(App.current.commonMapOptions());
+        GoogleMap map = mapView.createMap(App.current.commonMapOptions());
 
         try {
             List<WaterSourceReport> sourceReports = App.sourceReportDatabase.queryAllEntries();
@@ -46,11 +41,8 @@ public class HomeScreen extends Controller implements MapComponentInitializedLis
                 map.addMarker(marker);
 
 
-                map.addUIEventHandler(marker, UIEventType.click, new UIEventHandler() {
-                    @Override
-                    public void handle(JSObject obj) {
-                        App.current.setScene("ViewSourceReportScreen", report);
-                    }
+                map.addUIEventHandler(marker, UIEventType.click, obj -> {
+                    App.current.setScene("ViewSourceReportScreen", report);
                 });
             }
         } catch (IOException e) {

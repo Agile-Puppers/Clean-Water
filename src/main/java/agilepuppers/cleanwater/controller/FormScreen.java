@@ -7,6 +7,6 @@ public interface FormScreen {
      *
      * @param message message to be displayed
      */
-    public void displayMessage(String message);
+    void displayMessage(String message);
 
 }

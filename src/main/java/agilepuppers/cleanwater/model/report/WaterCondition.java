@@ -7,9 +7,9 @@ public enum WaterCondition {
     TREATABLE_CLEAR("Treatable (Clear)"),
     TREATABLE_MUDDY("Treatable (Muddy)");
 
-    private String friendlyString;
+    private final String friendlyString;
 
-    private WaterCondition(String friendly) {
+    WaterCondition(String friendly) {
         this.friendlyString = friendly;
     }
 

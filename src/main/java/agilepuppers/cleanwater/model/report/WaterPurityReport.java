@@ -1,16 +1,12 @@
 package agilepuppers.cleanwater.model.report;
 
-import agilepuppers.cleanwater.model.HashMapConvertible;
 import agilepuppers.cleanwater.model.user.UserAccount;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.util.Date;
 import java.util.HashMap;
 
 public class WaterPurityReport extends Report {
 
-    private SafetyRating safetyRating;
+    private final SafetyRating safetyRating;
     private double contaminantPPM;
     private double virusPPM;
 
@@ -96,7 +92,7 @@ public class WaterPurityReport extends Report {
         }
     }
 
-    public static Factory<WaterPurityReport> factory = new Factory<WaterPurityReport>() {
+    public static final Factory<WaterPurityReport> factory = new Factory<WaterPurityReport>() {
         @Override
         public WaterPurityReport fromHashMap(HashMap<String, String> hashMap) {
             return new WaterPurityReport(hashMap);

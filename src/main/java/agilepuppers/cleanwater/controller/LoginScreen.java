@@ -8,7 +8,6 @@ import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 public class LoginScreen extends Controller implements FormScreen {
 

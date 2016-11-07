@@ -20,7 +20,7 @@ public class UserAccount implements HashMapConvertible {
     private final String PASSWORD;
     private final AuthorizationLevel AUTHORIZATION;
 
-    private UserProfile profile;
+    private final UserProfile profile;
 
     /**
      * Constructor for a new User Account
@@ -103,7 +103,7 @@ public class UserAccount implements HashMapConvertible {
         this.profile = new UserProfile(hashmap);
     }
 
-    public static Factory<UserAccount> factory = new Factory<UserAccount>() {
+    public static final Factory<UserAccount> factory = new Factory<UserAccount>() {
         @Override
         public UserAccount fromHashMap(HashMap<String, String> hashMap) {
             return new UserAccount(hashMap);

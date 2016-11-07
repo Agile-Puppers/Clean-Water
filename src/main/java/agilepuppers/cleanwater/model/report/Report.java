@@ -3,7 +3,6 @@ package agilepuppers.cleanwater.model.report;
 import agilepuppers.cleanwater.model.HashMapConvertible;
 import agilepuppers.cleanwater.model.user.UserAccount;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -15,10 +14,10 @@ public abstract class Report implements HashMapConvertible {
     private int reportId;
 
     private String authorName;
-    private String authorUsername;
+    private final String authorUsername;
 
-    private double lat;
-    private double lon;
+    private final double lat;
+    private final double lon;
 
     /**
      * Create a new Report

@@ -1,17 +1,13 @@
 package agilepuppers.cleanwater.model.report;
 
-import agilepuppers.cleanwater.model.HashMapConvertible;
 import agilepuppers.cleanwater.model.user.UserAccount;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.util.Date;
 import java.util.HashMap;
 
 public class WaterSourceReport extends Report {
 
-    private WaterType waterType;
-    private WaterCondition waterCondition;
+    private final WaterType waterType;
+    private final WaterCondition waterCondition;
 
     /**
      * Create a new Report
@@ -74,7 +70,7 @@ public class WaterSourceReport extends Report {
         this.waterCondition = WaterCondition.valueOf(hashMap.get(CONDITION_KEY));
     }
 
-    public static Factory<WaterSourceReport> factory = new Factory<WaterSourceReport>() {
+    public static final Factory<WaterSourceReport> factory = new Factory<WaterSourceReport>() {
         @Override
         public WaterSourceReport fromHashMap(HashMap<String, String> hashMap) {
             return new WaterSourceReport(hashMap);

@@ -3,16 +3,13 @@ package agilepuppers.cleanwater.controller;
 import agilepuppers.cleanwater.App;
 import agilepuppers.cleanwater.model.report.WaterPurityReport;
 import agilepuppers.cleanwater.model.report.WaterSourceReport;
-import com.sun.corba.se.impl.orbutil.graph.Graph;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
-import javafx.scene.control.Alert;
 import javafx.scene.control.RadioButton;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.OptionalDouble;
 import java.util.function.ToDoubleFunction;
 
 public class HistoricalQualityScreen extends Controller {
@@ -28,10 +25,10 @@ public class HistoricalQualityScreen extends Controller {
         VIRUSES("Virus PPM", WaterPurityReport::getVirusPPM),
         CONTAMINANTS("Contaminant PPM", WaterPurityReport::getContaminantPPM);
 
-        private String displayString;
-        private ToDoubleFunction<WaterPurityReport> attributeGetter;
+        private final String displayString;
+        private final ToDoubleFunction<WaterPurityReport> attributeGetter;
 
-        private GraphDisplay(String displayString, ToDoubleFunction<WaterPurityReport> attributeGetter) {
+        GraphDisplay(String displayString, ToDoubleFunction<WaterPurityReport> attributeGetter) {
             this.displayString = displayString;
             this.attributeGetter = attributeGetter;
         }
@@ -65,7 +62,6 @@ public class HistoricalQualityScreen extends Controller {
             List<WaterPurityReport> allPurityReports = App.purityReportDatabase.queryAllEntries();
 
             for (WaterPurityReport report : allPurityReports) {
-
                 if (approxEqual(report.getLongitude(), this.associatedSourceReport.getLongitude())
                         && approxEqual(report.getLatitude(), this.associatedSourceReport.getLatitude())) {
                     associatedPurityReports.add(report);
@@ -78,6 +74,7 @@ public class HistoricalQualityScreen extends Controller {
         return associatedPurityReports;
     }
 
+    @SuppressWarnings("deprecation")
     private void configureGraph() {
         List<WaterPurityReport> associatedPurityReports = this.associatedPurityReports();
 
@@ -93,7 +90,7 @@ public class HistoricalQualityScreen extends Controller {
                     .mapToDouble(this.graphDisplay.attributeGetter)
                     .average().orElse(0);
 
-            LineChart.Data point = new LineChart.Data<String, Double>(months[i], value);
+            LineChart.Data point = new LineChart.Data<>(months[i], value);
             series.getData().add(point);
         }
 

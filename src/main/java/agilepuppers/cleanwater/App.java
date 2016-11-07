@@ -2,7 +2,6 @@ package agilepuppers.cleanwater;
 
 import agilepuppers.cleanwater.controller.Controller;
 import agilepuppers.cleanwater.model.ErrorHandler;
-import agilepuppers.cleanwater.model.Logger;
 import agilepuppers.cleanwater.model.TextDatabase;
 import agilepuppers.cleanwater.model.report.WaterPurityReport;
 import agilepuppers.cleanwater.model.report.WaterSourceReport;
@@ -31,8 +30,7 @@ public class App extends Application {
     public static TextDatabase<UserAccount> accountDatabase;
     public static TextDatabase<WaterSourceReport> sourceReportDatabase;
     public static TextDatabase<WaterPurityReport> purityReportDatabase;
-    public static Logger logger = new Logger();
-    public static ErrorHandler err = new ErrorHandler();
+    public static final ErrorHandler err = new ErrorHandler();
 
     // instance variables
     private Stage primaryStage;
@@ -46,11 +44,9 @@ public class App extends Application {
     private void load() {
         App.current = this;
 
-        // anything you want to load/do before starting the application, put under here
-
-        this.accountDatabase = new TextDatabase<>("./db/accounts", UserAccount.USERNAME_KEY, UserAccount.factory);
-        this.sourceReportDatabase = new TextDatabase<>("./db/waterSourceReports", WaterSourceReport.ID_KEY, WaterSourceReport.factory);
-        this.purityReportDatabase = new TextDatabase<>("./db/waterPurityReports", WaterPurityReport.ID_KEY, WaterPurityReport.factory);
+        App.accountDatabase = new TextDatabase<>("./db/accounts", UserAccount.USERNAME_KEY, UserAccount.factory);
+        App.sourceReportDatabase = new TextDatabase<>("./db/waterSourceReports", WaterSourceReport.ID_KEY, WaterSourceReport.factory);
+        App.purityReportDatabase = new TextDatabase<>("./db/waterPurityReports", WaterPurityReport.ID_KEY, WaterPurityReport.factory);
     }
 
     @Override
@@ -60,8 +56,6 @@ public class App extends Application {
         this.primaryStage = primaryStage;
 
         // load first scene
-        // not using setScene method because root cannot be null
-        //primaryStage.setScene(new Scene(getScene("TitleScreen"), 900, 550));
         this.setScene("TitleScreen");
 
         this.primaryStage.setTitle(App.NAME);

@@ -7,9 +7,9 @@ public enum AuthorizationLevel {
     MANAGER(3),
     ADMIN(4);
 
-    private int rank;
+    private final int rank;
 
-    private AuthorizationLevel(int permissionLevel) {
+    AuthorizationLevel(int permissionLevel) {
         this.rank = permissionLevel;
     }
 

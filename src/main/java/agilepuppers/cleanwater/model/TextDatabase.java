@@ -48,7 +48,7 @@ public class TextDatabase<T extends HashMapConvertible> {
      * Creates the database file if it doesn't already exist.
      *
      * @return the database file
-     * @throws IOException
+     * @throws IOException if the database file cannot be accessed
      */
     private File getDatabaseFile() throws IOException {
         File file = new File(filePath);
@@ -102,7 +102,7 @@ public class TextDatabase<T extends HashMapConvertible> {
      * Immediately performs an ADD action.
      *
      * @param item item to add to the database
-     * @throws IOException
+     * @throws IOException if the database file cannot be accessed
      */
     public void addEntry(T item) throws IOException {
         this.queueAddEntry(item);
@@ -123,7 +123,7 @@ public class TextDatabase<T extends HashMapConvertible> {
      * Immediately performs an UPDATE action.
      *
      * @param item the item to update in the database
-     * @throws IOException
+     * @throws IOException if the database file cannot be accessed
      */
     public void updateEntry(T item) throws IOException {
         this.queueUpdateEntry(item);
@@ -144,7 +144,7 @@ public class TextDatabase<T extends HashMapConvertible> {
      * Immediately performs a REMOVE action.
      *
      * @param item item to remove from the database
-     * @throws IOException
+     * @throws IOException if the database file cannot be accessed
      */
     public void removeEntry(T item) throws IOException {
         this.queueRemoveEntry(item);
@@ -156,7 +156,7 @@ public class TextDatabase<T extends HashMapConvertible> {
      *
      * @param id the unique identifier of the item to be queried
      * @return hashmap representing the entry queried
-     * @throws IOException
+     * @throws IOException if the database file cannot be accessed
      */
     public HashMap<String, String> queryEntryInfo(String id) throws IOException {
         if (id == null) return null;
@@ -180,7 +180,7 @@ public class TextDatabase<T extends HashMapConvertible> {
      * @param id the unique identifier of the item to be queried
      * @return a fully instantiated object. Returns null if the object doesn't exist,
      * or the modelClass doesn't have the appropriate constructor.
-     * @throws IOException
+     * @throws IOException if the database file cannot be accessed
      */
     public T queryEntry(String id) throws IOException {
         HashMap<String, String> entry = this.queryEntryInfo(id);
@@ -195,28 +195,27 @@ public class TextDatabase<T extends HashMapConvertible> {
      * Get a list of all items in the database
      *
      * @return an array of all items in the database
-     * @throws IOException
+     * @throws IOException if the database file cannot be accessed
      */
     public List<T> queryAllEntries() throws IOException {
         File file = this.getDatabaseFile();
         List<String> lines = Files.readAllLines(file.toPath());
 
         //map the lines into model objects
-        List<T> entries = lines.stream().map(line -> {
+
+        return lines.stream().map(line -> {
             String[] columns = line.split(Pattern.quote(columnDelimiter));
             HashMap<String, String> entry = this.hashMapFromPropertyList(columns);
             return this.modelObjectFromHashMap(entry);
         }).filter(object -> {
             return object != null;
         }).collect(Collectors.toList());
-
-        return entries;
     }
 
     /**
      * Attempts to do all queued actions
      *
-     * @throws IOException
+     * @throws IOException if the database file cannot be accessed
      */
     public void flushQueue() throws IOException {
         File file = this.getDatabaseFile();
