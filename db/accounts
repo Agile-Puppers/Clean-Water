@@ -4,3 +4,4 @@ password=pass|authlevel=ADMIN|fullname=Gabor Siffel|title=Mr.|username=gabor
 password=pass|authlevel=WORKER|username=worker
 password=pass|authlevel=MANAGER|username=manager
 password=pass|authlevel=ADMIN|username=admin
+password=pass|authlevel=USER|username=basic

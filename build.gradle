@@ -20,4 +20,5 @@ repositories {
 
 dependencies {
     compile 'com.lynden:GMapsFX:2.0.9'
+    testCompile 'junit:junit:4.12'
 }

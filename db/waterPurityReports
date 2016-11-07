@@ -12,3 +12,4 @@ contaminants=33.0|viruses=50.0|author=Cal Stephens|safety=TREATABLE|lon=-84.3964
 contaminants=10.0|viruses=10.0|author=Cal Stephens|safety=SAFE|lon=-84.39696200000003|time=Tue Nov 01 23:29:42 EDT 2016|id=11|lat=33.776262|username=cal
 contaminants=1000000.0|viruses=32453.0|author=Cal Stephens|safety=UNSAFE|lon=-84.40091021166995|time=Tue Nov 01 23:31:04 EDT 2016|id=12|lat=33.79045822867691|username=cal
 contaminants=100000.0|viruses=1234.0|author=Cal Stephens|safety=TREATABLE|lon=-84.39507372485355|time=Tue Nov 01 23:32:04 EDT 2016|id=13|lat=33.76334780893687|username=cal
+contaminants=100.0|viruses=10.0|author=Cal Stephens|safety=UNSAFE|lon=-84.4058883916016|time=Fri Nov 04 15:16:38 EDT 2016|id=14|lat=33.78489415815901|username=cal
