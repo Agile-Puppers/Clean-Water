@@ -63,11 +63,11 @@ public class TextDatabase<T extends HashMapConvertible> {
      * @param properties an array of key/value pairs
      * @return a HashMap representation of the given array
      */
-    private HashMap<String, String> hashMapFromPropertyList(String[] properties) {
+    public HashMap<String, String> hashMapFromPropertyList(String[] properties) {
         HashMap<String, String> entry = new HashMap<>();
 
         for (String property : properties) {
-            if (property.contains(keyValueDelimiter)) {
+            if (property != null && property.contains(keyValueDelimiter)) {
                 String[] pair = property.split(Pattern.quote(keyValueDelimiter));
                 if (pair.length < 2) continue;
                 entry.put(pair[0], pair[1]);
