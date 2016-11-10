@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 /**
- * Created by Nathan on 11/7/2016.
+ * Created by Nathan Lai on 11/7/2016.
  */
 public class WaterSourceReportTest {
     private HashMap<String, String> getValidHashMap() {
