@@ -31,6 +31,31 @@ public class RegisterScreen extends Controller implements FormScreen {
     private void handleCancel() {
         App.current.setScene("TitleScreen");
     }
+
+    public static boolean validRegistrationInfo(String un, String pw) {
+        // Regex matches any alphanumeric string between 2 and 20 characters long
+        Pattern f = Pattern.compile("^[a-zA-Z0-9]{2,20}$");
+
+        if (!f.matcher(un).matches()) {
+            return false;
+        }
+        if (!f.matcher(pw).matches()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean availableToRegister(String un) {
+        try {
+            return App.accountDatabase.queryEntry(un) != null;
+        } catch (IOException e) {
+            e.printStackTrace();
+            App.err.fatalError("Could not query the accounts database");
+        }
+        return false;
+    }
+
     /**
      * Registers new User into the system
      */
@@ -46,25 +71,14 @@ public class RegisterScreen extends Controller implements FormScreen {
         String username = usernameField.getText();
         String password = passwordField.getText();
 
-        // Regex matches any alphanumeric string between 2 and 20 characters long
-        Pattern f = Pattern.compile("^[a-zA-Z0-9]{2,20}$");
-
-        if (!f.matcher(username).matches()) {
-            displayMessage("Username can only contain letters, numbers, and be 2 - 20 characters long");
-            return; // username regex check
-        }
-        if (!f.matcher(password).matches()) {
-            displayMessage("Password can only contain letters, numbers, and be 2 - 20 characters long");
-            return; // password regex check
+        if (!RegisterScreen.validRegistrationInfo(username, password)) {
+            displayMessage("Username and password can only contain letters, numbers, and be 2 - 20 characters long");
+            return;
         }
 
-        try {
-            if (App.accountDatabase.queryEntry(username) != null) {
-                displayMessage("This username is taken, be more creative man");
-                return; // check for taken username
-            }
-        } catch (IOException e) {
-            App.err.fatalError("Could not query the accounts database");
+        if (!availableToRegister(username)) { // check for taken username
+            displayMessage("This username is taken, be more creative man");
+            return;
         }
 
         UserAccount user = new UserAccount(username, password, auth, new UserProfile());
